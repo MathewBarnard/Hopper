@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets.Source.Battle.Actions.Miscellaneous {
     public class Flinch : CombatAction {
 
-        private const float baseFlinchTime = 2.0f;
+        private const float baseFlinchTime = 0.5f;
 
         private Animator animator;
 

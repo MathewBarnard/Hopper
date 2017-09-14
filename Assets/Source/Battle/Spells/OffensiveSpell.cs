@@ -28,11 +28,13 @@ namespace Assets.Source.Battle.Spells {
 
                         this.hitCombatants.Add(hit, 1);
                         BattleEventManager.Instance().CombatantHit(hit);
+                        this.ProcessEffect(hit);
                     }
                     else {
                         if (this.hitCombatants[hit] < hitsPerCombatant) {
                             this.hitCombatants[hit] += 1;
                             BattleEventManager.Instance().CombatantHit(hit);
+                            this.ProcessEffect(hit);
                         }
                     }
 

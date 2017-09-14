@@ -6,8 +6,12 @@ using System.Text;
 using UnityEngine;
 
 namespace Assets.Source.Battle.Spells {
-    public class SpellHitbox : MonoBehaviour {
+    public abstract class SpellHitbox : MonoBehaviour {
 
         public Combatant source;
+
+        public virtual void ProcessEffect(Combatant hit) {
+            Debug.Log("Process effect");
+        }
     }
 }

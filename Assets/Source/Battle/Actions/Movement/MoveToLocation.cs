@@ -27,9 +27,9 @@ namespace Assets.Source.Battle.Actions.Movement {
             this.animator.SetBool("moving", true);
         }
 
-        void Update() {
+        void FixedUpdate() {
 
-            this.transform.position += this.transform.forward * (Time.deltaTime * MovementConstants.BaseMovementSpeed);
+            this.transform.position += this.transform.forward * (Time.deltaTime * (MovementConstants.BaseMovementSpeed * (float)this.combatant.GetStats().Speed.Current));
 
             //// Handle rotation towards the combatant
             Vector3 relativePos = targetLocation - this.transform.position;

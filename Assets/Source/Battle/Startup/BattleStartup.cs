@@ -52,18 +52,14 @@ namespace Assets.Source.Battle.Startup {
 
             UnitPlacement unitPlacement = this.GetComponentInChildren<UnitPlacement>();
 
-            foreach(GameObject obj in players) {
-                PauseController.Instance().combatants.Add(obj.GetComponent<PlayerCombatant>());
-            }
-
-            foreach (GameObject obj in enemies) {
-                PauseController.Instance().combatants.Add(obj.GetComponent<EnemyCombatant>());
-            }
-
             unitPlacement.PlacePlayers(players);
             unitPlacement.PlaceEnemies(enemies);
 
-            BattleEventManager.Instance().BattleStart();
+            GameObject.Find("BattleManager").GetComponent<BattleManager>().StoreCombatants(players, enemies);
         }
+
+        private void Start() {
+            BattleEventManager.Instance().BattleStart();
+        } 
     }
 }

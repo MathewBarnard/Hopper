@@ -11,11 +11,6 @@ namespace Assets.Source.Battle.Cameras.Development {
 
         private Combatant target;
 
-        private void Awake() {
-
-            BattleEventManager.Instance().onCombatantAtbFull += LookAtCombatant;
-        }
-
         private void Update() {
 
             Quaternion targetRotation = Quaternion.LookRotation(target.gameObject.transform.position - transform.position);

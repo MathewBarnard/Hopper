@@ -18,8 +18,8 @@ namespace Assets.Source.Models {
         [XmlElement(ElementName = "Stats")]
         public Statistics Stats;
 
-        [XmlArray(ElementName = "Spells")]
-        [XmlArrayItem("Spell")]
-        public List<string> Spells;
+        [XmlArray(ElementName = "Abilities")]
+        [XmlArrayItem("Ability")]
+        public List<Ability> Abilities;
     }
 }

@@ -3,43 +3,27 @@ using Assets.Source.Battle.UI.Development;
 using UnityEngine;
 using Assets.Source.Battle.UI.Callbacks;
 using System.Collections.Generic;
+using Assets.Source.Battle.Events;
+using Assets.Source.Battle.Spells.Abilities;
 
 namespace Assets.Source.Battle.UI {
     public class UIController : MonoBehaviour {
 
-        public GameObject menuAnchor;
+        public BattleMenuMain menuAnchor;
 
-        private BattleUiComponent currentUi;
+        private void Awake() {
+            BattleEventManager.Instance().onBeginTurn += ShowMenu;
+        } 
 
-        public void GenerateSelectActionUI(Combatant combatant, CombatantWithString callback) {
-
-            if(this.currentUi != null) {
-                Destroy(currentUi);
+        public void ShowMenu(Combatant combatant) {
+            if(combatant is PlayerCombatant) {
+                this.menuAnchor.gameObject.SetActive(true);
+                this.menuAnchor.SetActingCombatant(combatant);
             }
-
-            SelectActionMenu selectActionMenu = this.gameObject.AddComponent<SelectActionMenu>();
-            selectActionMenu.Callback = callback;
-            selectActionMenu.UiController = this;
-            selectActionMenu.Combatant = combatant;
-            this.currentUi = selectActionMenu;
         }
 
-        public void GenerateSelectTargetUI(Combatant combatant, CombatantWithGameObject callback) {
+        public void ShowTargetingReticule(Ability ability) {
 
-            if (this.currentUi != null) {
-                Destroy(currentUi);
-            }
-
-            SelectTargetMenu selectTargetMenu = this.gameObject.AddComponent<SelectTargetMenu>();
-            selectTargetMenu.Callback = callback;
-            selectTargetMenu.UiController = this;
-            selectTargetMenu.Combatant = combatant;
-            this.currentUi = selectTargetMenu;
-        }
-
-        public void Clear() {
-            Destroy(this.currentUi);
-            this.currentUi = null;
         }
     }
 }

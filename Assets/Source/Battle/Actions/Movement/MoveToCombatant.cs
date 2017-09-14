@@ -33,7 +33,7 @@ namespace Assets.Source.Battle.Actions.Movement {
         void Update() {
 
             //this.transform.position = Vector3.MoveTowards(this.transform.position, target.transform.position, 1.0f * Time.deltaTime);
-            this.transform.position += this.transform.forward * (Time.deltaTime * MovementConstants.BaseMovementSpeed);
+            this.transform.position += this.transform.forward * (Time.deltaTime * (MovementConstants.BaseMovementSpeed * (float)this.combatant.GetStats().Speed.Current));
 
             // Handle rotation towards the combatant
             Vector3 relativePos = target.gameObject.transform.position - this.transform.position;
@@ -44,16 +44,12 @@ namespace Assets.Source.Battle.Actions.Movement {
             this.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * MovementConstants.RotationSpeed);
         }
 
-        void OnTriggerEnter(Collider col) {
+        void OnTriggerStay(Collider col) {
             if (target != null) {
                 if (col.gameObject == target.gameObject) {
                     complete = true;
                 }
             }
-        }
-
-        private void OnEnable() {
-            target = this.gameObject.GetComponent<Combatant>().Target;
         }
 
         private void OnDestroy() {

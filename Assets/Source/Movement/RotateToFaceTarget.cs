@@ -33,8 +33,6 @@ namespace Assets.Source.Movement {
             // Get target of this combatant.
             this.combatant = this.gameObject.GetComponent<Combatant>();
             this.queue = this.gameObject.GetComponent<ActionQueue>();
-
-            BattleEventManager.Instance().onCombatantTargeted += SetNewTarget;
         }
 
         public void SetNewTarget(Combatant targetedCombatant, Combatant targetedBy) {

@@ -37,8 +37,6 @@ namespace Assets.Source.Battle.StateProcesses {
                 if(animator != null) {
                     animator.enabled = false;
                 }
-
-                combatant.AtbGauge.enabled = false;
             }
         }
 
@@ -58,8 +56,6 @@ namespace Assets.Source.Battle.StateProcesses {
                         animator.enabled = false;
                     }
                 }
-
-                combatant.AtbGauge.enabled = false;
             }
         }
 
@@ -76,8 +72,6 @@ namespace Assets.Source.Battle.StateProcesses {
                 if (animator != null) {
                     animator.enabled = true;
                 }
-
-                combatant.AtbGauge.enabled = true;
             }
         }
     }

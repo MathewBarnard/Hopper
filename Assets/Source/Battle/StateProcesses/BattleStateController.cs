@@ -20,37 +20,6 @@ namespace Assets.Source.Battle.StateProcesses {
         public CameraController cameraController;
 
         private void Awake() {
-            BattleEventManager.Instance().onCombatantAtbFull += EnterCharacterTurnState;
-        }
-
-        /// <summary>
-        /// Called when we begin the characters turn.
-        /// </summary>
-        /// <param name="combatant"></param>
-        public void EnterCharacterTurnState(Combatant combatant) {
-
-            if (combatant is PlayerCombatant) {
-                PauseController.Instance().PauseAllButOne(combatant);
-                cameraController.LookAtTargetAdjacent(combatant.gameObject);
-                uiController.GenerateSelectActionUI(combatant, new CombatantWithString(EnterSelectTargetState));
-            }
-        }
-
-        /// <summary>
-        /// Triggered via a callback from the UI when the user has selected an action.
-        /// </summary>
-        /// <param name="ability"></param>
-        public void EnterSelectTargetState(Combatant combatant, string ability) {
-            cameraController.MoveToAnchor("SelectTarget");
-            ActionAttacher.AttachScriptsForAbility(combatant, Spellbook.CreateAbility(ability));
-            uiController.GenerateSelectTargetUI(combatant, new CombatantWithGameObject(TargetSelected));
-        }
-
-        public void TargetSelected(Combatant combatant, GameObject target) {
-            uiController.Clear();
-            combatant.Target = target.GetComponent<Combatant>();
-            //BattleEventManager.Instance().CombatantTargeted(target.GetComponent<Combatant>(), combatant);
-            PauseController.Instance().UnPause();
         }
     }
 }

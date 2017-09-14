@@ -21,5 +21,9 @@ namespace Assets.Source.Models {
 
         [XmlElement(ElementName = "Stats")]
         public Statistics Stats;
+
+        [XmlArray(ElementName = "Abilities")]
+        [XmlArrayItem("Ability")]
+        public List<Ability> Abilities;
     }
 }

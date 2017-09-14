@@ -3,7 +3,6 @@ using Assets.Source.Battle.Actions.Miscellaneous;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells;
 using Assets.Source.Battle.Spells.Abilities;
-using Assets.Source.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,34 +13,26 @@ namespace Assets.Source.Battle.Combatants {
     public class Combatant : MonoBehaviour {
 
         /// <summary>
-        /// The current target that the combatant has set
+        /// How much 'momentum' a character has to empower their attacks.
         /// </summary>
-        protected Combatant target;
-        public Combatant Target {
-            get { return target; }
-            set { target = value; }
+        private int momentum;
+        public int Momentum {
+            get { return momentum; }
+            set { momentum = value; }
         }
 
         /// <summary>
-        /// The current ability that the character is configured to use.
+        /// The spellbook of the character. Used primarily to store ability cooldowns.
         /// </summary>
-        protected Ability selectedAbility;
-        public Ability SelectedAbility {
-            get { return selectedAbility; }
+        protected Spellbook spellbook;
+        public Spellbook Spellbook {
+            get { return spellbook; }
         }
 
         // The heros action queue
         protected ActionQueue actions;
         public ActionQueue Actions {
             get { return actions; }
-        }
-
-        /// <summary>
-        /// The atb gauge attached to the combatant.
-        /// </summary>
-        protected AtbGauge atbGauge;
-        public AtbGauge AtbGauge {
-            get { return atbGauge; }
         }
 
         public virtual void Awake() {
@@ -53,14 +44,12 @@ namespace Assets.Source.Battle.Combatants {
             BattleEventManager.Instance().onCombatantDamaged += this.Flinch;
         }
 
-        public void Start() {
+        public virtual void Start() {
             this.actions = this.gameObject.GetComponent<ActionQueue>();
-            this.atbGauge = this.gameObject.GetComponent<AtbGauge>();
         }
 
         public void Enable() {
             this.enabled = true;
-            BattleEventManager.Instance().onBattleStart -= this.Enable;
         }
 
         /// <summary>
@@ -74,6 +63,10 @@ namespace Assets.Source.Battle.Combatants {
                 Flinch flinchAction = this.gameObject.AddComponent<Flinch>();
                 this.Actions.AddToFront(flinchAction);
             }
+        }
+
+        public virtual Models.Statistics GetStats() {
+            return null;
         }
     }
 }

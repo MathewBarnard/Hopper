@@ -21,23 +21,21 @@ namespace Assets.Source.Battle.Actions {
                 CombatAction combatAction = (CombatAction)combatant.gameObject.AddComponent(action);
 
                 // Unsure what this was doing before.
-                //combatAction.SetAbility(ability);
+                combatAction.SetAbility(ability);
 
                 // A control switch to ensure that we instantiate any requirements of the script
                 if(combatAction is ITargetedAction) {
                     // Set the target for the combat action
                     ITargetedAction targetedAction = combatAction as ITargetedAction;
-                    targetedAction.SetTarget(combatant.Target);
-                    BattleEventManager.Instance().CombatantTargeted(combatant.Target, combatant);
+                    //targetedAction.SetTarget(combatant.Target);
+                    //BattleEventManager.Instance().CombatantTargeted(combatant.Target, combatant);
                 }
 
                 // Add the action to the queue.
                 actionsToQueue.Add(combatAction);
             }
 
-            actionsToQueue.Add(combatant.gameObject.AddComponent<UnlockAtb>());
-
-            combatant.Actions.AddActions(actionsToQueue.ToArray());
+            combatant.Actions.SetActions(actionsToQueue.ToArray());
         }
     }
 }

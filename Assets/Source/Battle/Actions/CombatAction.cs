@@ -44,6 +44,10 @@ namespace Assets.Source.Battle.Actions {
             get { return complete; }
         }
 
+        public void SetAbility(Ability ability) {
+            this.ability = ability;
+        }
+
         public virtual void Awake() {
             combatant = this.gameObject.GetComponent<Combatant>();
             enabled = false;
