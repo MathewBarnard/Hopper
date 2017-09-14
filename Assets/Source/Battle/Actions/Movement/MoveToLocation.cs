@@ -21,6 +21,7 @@ namespace Assets.Source.Battle.Actions.Movement {
         public override void Awake() {
             base.Awake();
             this.animator = this.gameObject.GetComponentInChildren<Animator>();
+            this.targetLocation = this.gameObject.transform.position;
         }
 
         private void Start() {
@@ -40,7 +41,8 @@ namespace Assets.Source.Battle.Actions.Movement {
             this.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * MovementConstants.RotationSpeed);
 
             // Check if the combatant has arrived at their location. if they have, remove the script.
-            if (Vector3.Distance(this.transform.position, targetLocation) < 1.0f) {
+            if (Vector3.Distance(this.transform.position, targetLocation) < 0.1f) {
+                this.transform.position = new Vector3(this.targetLocation.x, this.transform.position.y, this.targetLocation.z);
                 this.complete = true;
             }
         }

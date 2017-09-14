@@ -15,19 +15,21 @@ namespace Assets.Source.Battle.Spells.Abilities {
 
         public AttackMelee(Combatant actingCombatant) {
             this.actingCombatant = actingCombatant;
-
         }
 
         public AttackMelee(Models.Ability abilityModel) {
-
+            this.abilityType = Spells.AbilityType.attackmelee;
+            this.targetingType = TargetingType.Single;
         }
 
         public override Type[] GetActions() {
 
-            Type[] actions = new Type[2];
+            Type[] actions = new Type[4];
 
             actions[0] = typeof(MoveToCombatant);
             actions[1] = typeof(Actions.Attacks.AttackMelee);
+            actions[2] = typeof(MoveToLocation);
+            actions[3] = typeof(RotateToFace);
 
             return actions;
         }

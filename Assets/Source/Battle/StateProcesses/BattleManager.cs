@@ -1,4 +1,5 @@
-﻿using Assets.Source.Battle.Combatants;
+﻿using Assets.Source.Battle.Actions;
+using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells.Abilities;
 using System;
@@ -44,8 +45,9 @@ namespace Assets.Source.Battle.StateProcesses {
         private void Awake() {
 
             BattleEventManager.Instance().onBattleStart += NextTurn;
-
             BattleEventManager.Instance().onActionSelected += ActionSelected;
+            BattleEventManager.Instance().onTargetSelected += TargetSelected;
+            BattleEventManager.Instance().onEndTurn += EndTurn;
         }
 
         /// <summary>
@@ -119,9 +121,17 @@ namespace Assets.Source.Battle.StateProcesses {
             this.ability = ability;
         }
 
+        private void TargetSelected(List<Combatant> targets) {
+
+            if(ability.TargetingType == TargetingType.Single) {
+                ActionAttacher.AttachScriptsForAbility(this.actingCombatant, ability, targets[0]);
+            }
+        }
+
         private void EndTurn() {
 
             this.turnQueue.Enqueue(this.actingCombatant);
+            NextTurn();
         }
     }
 }

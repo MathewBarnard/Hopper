@@ -28,6 +28,8 @@ namespace Assets.Source.Battle.UI.Development {
 
         private void Update() {
 
+            Debug.Log(index);
+
             if (Input.GetButtonDown("Horizontal")) {
 
                 Combatant oldTarget = null;
@@ -62,7 +64,10 @@ namespace Assets.Source.Battle.UI.Development {
             }
 
             if(Input.GetButtonDown("Submit")) {
-                BattleEventManager.Instance().onTargetSelected();
+                List<Combatant> targets = new List<Combatant>();
+                targets.Add(enemies[index]);
+                BattleEventManager.Instance().TargetSelected(targets);
+                this.enabled = false;
             }
         } 
 

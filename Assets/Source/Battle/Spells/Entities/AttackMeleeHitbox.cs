@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Battle.Combatants;
+using Assets.Source.Battle.Events;
 using Assets.Source.Battle.System;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace Assets.Source.Battle.Spells.Entities {
             int damage = DamageCalculator.CalculatePhysicalDamage(source, hit);
 
             hit.GetStats().Health.Current -= damage;
+
+            BattleEventManager.Instance().EndTurn();
         }
     }
 }

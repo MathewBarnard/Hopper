@@ -37,5 +37,32 @@ namespace Assets.Source.Battle.Actions {
 
             combatant.Actions.SetActions(actionsToQueue.ToArray());
         }
+
+        public static void AttachScriptsForAbility(Combatant combatant, Ability ability, Combatant target) {
+
+            Type[] actions = ability.GetActions();
+
+            List<CombatAction> actionsToQueue = new List<CombatAction>();
+
+            foreach (Type action in actions) {
+                // Add the script to the combatant
+                CombatAction combatAction = (CombatAction)combatant.gameObject.AddComponent(action);
+
+                // Unsure what this was doing before.
+                combatAction.SetAbility(ability);
+
+                // A control switch to ensure that we instantiate any requirements of the script
+                if (combatAction is ITargetedAction) {
+                    // Set the target for the combat action
+                    ITargetedAction targetedAction = combatAction as ITargetedAction;
+                    targetedAction.SetTarget(target);
+                }
+
+                // Add the action to the queue.
+                actionsToQueue.Add(combatAction);
+            }
+
+            combatant.Actions.SetActions(actionsToQueue.ToArray());
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace Assets.Source.Battle.Events {
     public delegate void TargetChanged(Combatant oldTarget, Combatant newTarget);
     public delegate void TargetSelected(List<Combatant> targets);
     public delegate void TargetingCancelled();
+    public delegate void EndTurn();
 
     public class BattleEventManager {
 
@@ -36,6 +37,7 @@ namespace Assets.Source.Battle.Events {
         public TargetChanged onTargetChanged;
         public TargetingCancelled onTargetingCancelled;
         public TargetSelected onTargetSelected;
+        public EndTurn onEndTurn;
 
         public CombatantKilled onCombatantKilled;
         public CombatantDamaged onCombatantDamaged;
@@ -106,6 +108,12 @@ namespace Assets.Source.Battle.Events {
         public void TargetingCancelled() {
             if (onTargetingCancelled != null)
                 onTargetingCancelled.Invoke();
+        }
+
+        public void EndTurn() {
+            if(onEndTurn != null) {
+                onEndTurn.Invoke();
+            }
         }
     }
 }

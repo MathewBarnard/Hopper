@@ -29,6 +29,7 @@ namespace Assets.Source.Battle.UI.Development {
 
             BattleEventManager.Instance().onBeginTurn += Enable;
             BattleEventManager.Instance().onTargetChanged += EnableIfTargeted;
+            BattleEventManager.Instance().onTargetSelected += Disable;
 
             this.lowerScale = this.transform.localScale.x;
             this.upperScale = this.lowerScale + 0.05f;
@@ -54,6 +55,11 @@ namespace Assets.Source.Battle.UI.Development {
             if(this.combatant == combatant) {
                 this.gameObject.SetActive(true);
             }
+        }
+
+        public void Disable(List<Combatant> targets) {
+
+            this.gameObject.SetActive(false);
         }
 
         public void EnableIfTargeted(Combatant oldTarget, Combatant newTarget) {

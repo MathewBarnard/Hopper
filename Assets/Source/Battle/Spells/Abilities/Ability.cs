@@ -7,7 +7,15 @@ using System.Linq;
 using System.Text;
 
 namespace Assets.Source.Battle.Spells.Abilities {
+
+    public enum TargetingType { Single, Multiple, All }
+
     public abstract class Ability {
+
+        protected TargetingType targetingType;
+        public TargetingType TargetingType {
+            get { return targetingType; }
+        }
 
         public AbilityType abilityType;
         public abstract AbilityType AbilityType();
