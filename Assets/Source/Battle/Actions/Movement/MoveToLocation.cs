@@ -21,34 +21,26 @@ namespace Assets.Source.Battle.Actions.Movement {
         public override void Awake() {
             base.Awake();
             this.animator = this.gameObject.GetComponentInChildren<Animator>();
-            this.targetLocation = this.gameObject.transform.position;
+            this.targetLocation = this.gameObject.transform.position + new Vector3(-0.5f, 0.0f, 0.0f);
         }
 
         private void Start() {
-            this.animator.SetBool("moving", true);
+            //this.animator.SetBool("moving", true);
         }
 
         void FixedUpdate() {
 
-            this.transform.position += this.transform.forward * (Time.deltaTime * (MovementConstants.BaseMovementSpeed * (float)this.combatant.GetStats().Speed.Current));
-
-            //// Handle rotation towards the combatant
-            Vector3 relativePos = targetLocation - this.transform.position;
-            relativePos.y = this.transform.position.y;
-            Quaternion rotation = Quaternion.LookRotation(relativePos);
-            rotation.x = 0;
-            rotation.z = 0;
-            this.transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * MovementConstants.RotationSpeed);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, targetLocation, 3.0f * Time.deltaTime);
 
             // Check if the combatant has arrived at their location. if they have, remove the script.
-            if (Vector3.Distance(this.transform.position, targetLocation) < 0.1f) {
+            if (Vector3.Distance(this.transform.position, targetLocation) < 0.01f) {
                 this.transform.position = new Vector3(this.targetLocation.x, this.transform.position.y, this.targetLocation.z);
                 this.complete = true;
             }
         }
 
         private void OnDestroy() {
-            this.animator.SetBool("moving", false);
+            //this.animator.SetBool("moving", false);
         }
     }
 }

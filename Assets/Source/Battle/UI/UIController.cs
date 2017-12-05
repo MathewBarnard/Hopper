@@ -9,13 +9,17 @@ using Assets.Source.Battle.Spells.Abilities;
 namespace Assets.Source.Battle.UI {
     public class UIController : MonoBehaviour {
 
+        public static UIController instance;
+        public Canvas overlayCanvas;
+        public Canvas mainCanvas;
         public BattleMenuMain menuAnchor;
 
         private void Awake() {
-            BattleEventManager.Instance().onBeginTurn += ShowMenu;
+            UIController.instance = this;
+            BattleEventManager.Instance().onBeginActionSelection += ShowMenu;
         } 
 
-        public void ShowMenu(Combatant combatant) {
+        public void ShowMenu(Combatant combatant, Combatant previous) {
             if(combatant is PlayerCombatant) {
                 this.menuAnchor.gameObject.SetActive(true);
                 this.menuAnchor.SetActingCombatant(combatant);

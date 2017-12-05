@@ -12,6 +12,11 @@ namespace Assets.Source.Battle.StateProcesses {
     public class BattleManager : MonoBehaviour {
 
         /// <summary>
+        /// TurnController used to marionette the player and enemies actions
+        /// </summary>
+        private TurnController turnController;
+
+        /// <summary>
         /// The characters turn queue
         /// </summary>
         private Queue<Combatant> turnQueue;
@@ -20,6 +25,9 @@ namespace Assets.Source.Battle.StateProcesses {
         /// All player characters in the battle.
         /// </summary>
         private List<PlayerCombatant> players;
+        public List<PlayerCombatant> Players {
+            get { return players;}
+        }
 
         /// <summary>
         /// All enemy characters in the battle.
@@ -28,6 +36,11 @@ namespace Assets.Source.Battle.StateProcesses {
         public List<EnemyCombatant> Enemies {
             get { return enemies; }
         }
+
+        /// <summary>
+        /// The abilities that have been selected this turn
+        /// </summary>
+        private List<KeyValuePair<Combatant,Ability>> abilitySelection;
 
         /// <summary>
         /// The currently acting combatant
@@ -47,7 +60,9 @@ namespace Assets.Source.Battle.StateProcesses {
             BattleEventManager.Instance().onBattleStart += NextTurn;
             BattleEventManager.Instance().onActionSelected += ActionSelected;
             BattleEventManager.Instance().onTargetSelected += TargetSelected;
+            BattleEventManager.Instance().onBeginPlayTurn += ProcessTurn;
             BattleEventManager.Instance().onEndTurn += EndTurn;
+            this.abilitySelection = new List<KeyValuePair<Combatant, Ability>>();
         }
 
         /// <summary>
@@ -101,36 +116,46 @@ namespace Assets.Source.Battle.StateProcesses {
             this.turnQueue = new Queue<Combatant>();
 
             foreach(Combatant combatant in players) {
-
                 this.turnQueue.Enqueue(combatant);
             }
+        }
 
-            foreach(Combatant combatant in enemies) {
-
-                this.turnQueue.Enqueue(combatant);
+        private void NextCombatant() {
+            if (this.turnQueue.Count > 0) {
+                Combatant previous = this.actingCombatant;
+                this.actingCombatant = this.turnQueue.Dequeue();
+                BattleEventManager.Instance().BeginActionSelection(this.actingCombatant, previous);
+            }
+            else {
+                BattleEventManager.Instance().BeginPlayTurn();
             }
         }
 
         private void NextTurn() {
-
-            this.actingCombatant = this.turnQueue.Dequeue();
-            BattleEventManager.Instance().BeginTurn(this.actingCombatant);
+            NextCombatant();
         }
 
         private void ActionSelected(Combatant combatant, Ability ability) {
-            this.ability = ability;
+            this.abilitySelection.Add(new KeyValuePair<Combatant, Ability>(combatant, ability));
         }
 
         private void TargetSelected(List<Combatant> targets) {
 
-            if(ability.TargetingType == TargetingType.Single) {
-                ActionAttacher.AttachScriptsForAbility(this.actingCombatant, ability, targets[0]);
-            }
+            this.abilitySelection.Find(c => c.Key == actingCombatant).Value.Targets = targets;
+
+            NextCombatant();
+        }
+
+        public void ProcessTurn() {
+            this.turnController = new TurnController(this.abilitySelection);
         }
 
         private void EndTurn() {
 
-            this.turnQueue.Enqueue(this.actingCombatant);
+            this.abilitySelection.Clear();
+            this.actingCombatant = null;
+            this.turnController = null;
+            SetupQueue();
             NextTurn();
         }
     }

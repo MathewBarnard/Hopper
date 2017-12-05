@@ -30,16 +30,15 @@ namespace Assets.Source.Battle.Actions.Movement {
         }
 
         private void Start() {
-            this.animator.SetBool("moving", true);
+            //this.animator.SetBool("moving", true);
         }
 
-        void FixedUpdate() {
+        void Update() {
 
             this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * MovementConstants.RotationSpeed);
-
             // Check if the combatant has arrived at their location. if they have, remove the script.
             if (this.timer > 0.0f) {
-                this.timer -= 0.0f;
+                this.timer -= Time.deltaTime;
             }
             else {
                 this.transform.rotation = targetRotation;

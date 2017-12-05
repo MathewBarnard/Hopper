@@ -11,9 +11,9 @@ using UnityEngine;
 namespace Assets.Source.Battle.UI.Development {
     public class TargetController : MonoBehaviour {
 
+        private List<PlayerCombatant> players;
         private List<EnemyCombatant> enemies;
-        private EnemyCombatant target;
-        private int index;
+        private Ability ability;
 
         void Awake() {
             BattleEventManager.Instance().onActionSelected += Enable;
@@ -22,65 +22,63 @@ namespace Assets.Source.Battle.UI.Development {
 
         private void Start() {
             GameObject battleManager = GameObject.Find("BattleManager");
+            this.players = battleManager.GetComponent<BattleManager>().Players;
             this.enemies = battleManager.GetComponent<BattleManager>().Enemies;
             this.enabled = false;
         }
 
         private void Update() {
 
-            Debug.Log(index);
+            if (UnityEngine.Input.GetMouseButtonDown(0)) {
+                RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
-            if (Input.GetButtonDown("Horizontal")) {
 
-                Combatant oldTarget = null;
-                Combatant newTarget = null;
+                if (hit.collider != null) {
 
-                if (Input.GetAxisRaw("Horizontal") == 1) {
+                    List<Combatant> targets = new List<Combatant>();
 
-                    oldTarget = enemies[index];
+                    if (this.ability.TargetingType == TargetingType.OFFENSIVE_SINGLE || this.ability.TargetingType == TargetingType.OFFENSIVE_ALL) {
 
-                    if (index == enemies.Count - 1)
-                        index = 0;
-                    else
-                        index += 1;
+                        foreach (EnemyCombatant enemy in enemies) {
 
-                    newTarget = enemies[index];
+                            if (hit.collider.gameObject == enemy.gameObject) {
 
-                    BattleEventManager.Instance().TargetChanged(oldTarget, newTarget);
+                                if(this.ability.TargetingType == TargetingType.OFFENSIVE_SINGLE)
+                                    targets.Add(enemy);
+                                else
+                                    targets.AddRange(enemies.Cast<Combatant>().ToList());
+                                BattleEventManager.Instance().TargetSelected(targets);
+                                Disable();
+                                return;
+                            }
+                        }
+                    }
+                    else if(this.ability.TargetingType == TargetingType.DEFENSIVE_SINGLE || this.ability.TargetingType == TargetingType.DEFENSIVE_ALL) {
+                        foreach(PlayerCombatant player in players) {
+
+                            if (hit.collider.gameObject == player.gameObject) {
+                                
+                                if(this.ability.TargetingType == TargetingType.DEFENSIVE_SINGLE)
+                                    targets.Add(player);
+                                else
+                                    targets.AddRange(players.Cast<Combatant>().ToList());
+                                BattleEventManager.Instance().TargetSelected(targets);
+                                Disable();
+                                return;
+                            }
+                        }
+                    }
                 }
-                else if (Input.GetAxisRaw("Horizontal") == -1) {
-
-                    oldTarget = enemies[index];
-
-                    if (index == 0)
-                        index = enemies.Count - 1;
-                    else
-                        index -= 1;
-
-                    newTarget = enemies[index];
-
-                    BattleEventManager.Instance().TargetChanged(oldTarget, newTarget);
-                }
-            }
-
-            if(Input.GetButtonDown("Submit")) {
-                List<Combatant> targets = new List<Combatant>();
-                targets.Add(enemies[index]);
-                BattleEventManager.Instance().TargetSelected(targets);
-                this.enabled = false;
             }
         } 
 
         public void Enable(Combatant combatant, Ability ability) {
-
+            this.ability = ability;
             this.enabled = true;
-            this.target = this.enemies[0];
-            this.index = 0;
-            BattleEventManager.Instance().TargetChanged(null, enemies[index]);
         }
 
         public void Disable() {
-
+            this.ability = null;
             this.enabled = false;
         }
     }

@@ -19,7 +19,7 @@ namespace Assets.Source.Battle.Spells.Abilities.Magic {
             Type[] actions = new Type[2];
 
             actions[0] = typeof(Actions.Abilities.Casting);
-            actions[1] = typeof(Actions.Attacks.AttackMelee);
+            actions[1] = typeof(Actions.Attacks.Ember);
 
             return actions;
         }
@@ -30,6 +30,18 @@ namespace Assets.Source.Battle.Spells.Abilities.Magic {
 
         public override AbilityType AbilityType() {
             return Spells.AbilityType.ember;
+        }
+
+        public override void Process() {
+            throw new NotImplementedException();
+        }
+
+        public override void AttachScripts() {
+            throw new NotImplementedException();
+        }
+
+        public override void ApplyMomentum(int momentum) {
+            throw new NotImplementedException();
         }
     }
 }

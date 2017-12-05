@@ -18,5 +18,12 @@ namespace Assets.Source.Models {
 
         [XmlElement(ElementName = "Name")]
         public string Name;
+
+        [XmlElement(ElementName = "TargetingType")]
+        public Assets.Source.Battle.Spells.Abilities.TargetingType TargetingType;
+
+        [XmlArray(ElementName = "AbilityLevels")]
+        [XmlArrayItem("AbilityLevel")]
+        public List<AbilityLevel> AbilityLevels;
     }
 }

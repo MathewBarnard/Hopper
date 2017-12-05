@@ -10,6 +10,7 @@ namespace Assets.Source.Battle.Events {
     // Events handling occurances during battle
     public delegate void CombatantKilled(Combatant combatant);
     public delegate void CombatantDamaged(Combatant combatant);
+    public delegate void AbilityCompleted(Combatant combatant, Ability ability);
 
     // Events handling battle states.
     public delegate void BattleTriggered();
@@ -19,10 +20,12 @@ namespace Assets.Source.Battle.Events {
 
     // Turn flow events
     public delegate void BeginTurn(Combatant combatant);
+    public delegate void BeginActionSelection(Combatant nextCombatant, Combatant previousCombatant);
     public delegate void ActionSelected(Combatant combatant, Ability ability);
     public delegate void TargetChanged(Combatant oldTarget, Combatant newTarget);
     public delegate void TargetSelected(List<Combatant> targets);
     public delegate void TargetingCancelled();
+    public delegate void BeginPlayTurn();
     public delegate void EndTurn();
 
     public class BattleEventManager {
@@ -33,14 +36,17 @@ namespace Assets.Source.Battle.Events {
         public BattleResume onBattleResume;
 
         public BeginTurn onBeginTurn;
+        public BeginActionSelection onBeginActionSelection;
         public ActionSelected onActionSelected;
         public TargetChanged onTargetChanged;
         public TargetingCancelled onTargetingCancelled;
         public TargetSelected onTargetSelected;
+        public BeginPlayTurn onBeginPlayTurn;
         public EndTurn onEndTurn;
 
         public CombatantKilled onCombatantKilled;
         public CombatantDamaged onCombatantDamaged;
+        public AbilityCompleted onAbilityCompleted;
 
 
         private static BattleEventManager battleEventManager;
@@ -89,6 +95,16 @@ namespace Assets.Source.Battle.Events {
                 onCombatantDamaged.Invoke(combatant);
         }
 
+        public void AbilityCompleted(Combatant combatant, Ability ability) {
+            if (onAbilityCompleted != null)
+                onAbilityCompleted.Invoke(combatant, ability);
+        }
+
+        public void BeginActionSelection(Combatant nextCombatant, Combatant previousCombatant) {
+            if (onBeginActionSelection != null)
+                onBeginActionSelection.Invoke(nextCombatant, previousCombatant);
+        }
+
         public void ActionSelected(Combatant combatant, Ability ability) {
             if (onActionSelected != null)
                 onActionSelected.Invoke(combatant, ability);
@@ -108,6 +124,11 @@ namespace Assets.Source.Battle.Events {
         public void TargetingCancelled() {
             if (onTargetingCancelled != null)
                 onTargetingCancelled.Invoke();
+        }
+
+        public void BeginPlayTurn() {
+            if (onBeginPlayTurn != null)
+                onBeginPlayTurn.Invoke();
         }
 
         public void EndTurn() {

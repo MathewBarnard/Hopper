@@ -1,5 +1,7 @@
 ﻿using Assets.Source.Battle.Combatants;
+using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells;
+using Assets.Source.Battle.Spells.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +11,33 @@ using UnityEngine;
 namespace Assets.Source.Battle.Actions.Attacks {
     public class AttackMelee : CombatAction, ITargetedAction {
 
-        private Combatant target;
-
+        private List<Combatant> targets;
         private Animator animator;
+        private SpellAnimation spellAnimation;
 
         /// <summary>
         /// A timer that controls when this action is considered finished. This begins incrementing
         /// </summary>
         private float finishActionTimer;
 
+        public static AttackMelee CreateComponent(GameObject objectToAttachTo, List<Combatant> targets) {
+            AttackMelee action = objectToAttachTo.AddComponent<AttackMelee>();
+            action.targets = targets;
+
+            return action;
+        }
+
         public override void Awake() {
 
             base.Awake();
-
+        
             this.animator = this.gameObject.GetComponentInChildren<Animator>();
         }
 
         void Start() {
 
-            this.animator.SetTrigger("attack");
-
-            //this.target = this.combatant.gameObject.GetComponent<Combatant>().Target;
+            //this.animator.SetTrigger("attack");
+            SpawnAttackSpell();
         }
 
         /// <summary>
@@ -37,18 +45,23 @@ namespace Assets.Source.Battle.Actions.Attacks {
         /// </summary>
         public void SpawnAttackSpell() {
 
-            GameObject spell = Instantiate((GameObject)Resources.Load("Prefabs/Battle/Spells/spell_attack"), target.transform.position, Quaternion.identity);
-            SpellHitbox hitboxScript = spell.gameObject.GetComponent<SpellHitbox>();
-
-            if(hitboxScript != null) {
-                hitboxScript.source = this.combatant;
+            foreach (Combatant target in targets) {
+                GameObject spell = Instantiate((GameObject)Resources.Load("Prefabs/Battle/Spells/sword_attack_0"), target.transform.position, Quaternion.identity);
+                this.spellAnimation = spell.GetComponent<AttackMeleeAnimation>();
+                this.spellAnimation.sourceAbility = this.ability;
+                this.spellAnimation.source = this.combatant;
+                this.spellAnimation.target = target;
             }
-
-            complete = true;
         }
 
         public void SetTarget(Combatant combatant) {
-            this.target = combatant;
+            //this.target = combatant;
+        }
+
+        public void Update() {
+            if(this.spellAnimation == null) {
+                this.complete = true;
+            }
         }
     }
 }
