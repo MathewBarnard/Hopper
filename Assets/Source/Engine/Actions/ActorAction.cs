@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Battle.Actions {
-    public class CombatAction : MonoBehaviour {
+namespace Assets.Source.Engine.Actions {
+    public class ActorAction : MonoBehaviour {
         
         /// <summary>
         /// Executing = the action is being performed.

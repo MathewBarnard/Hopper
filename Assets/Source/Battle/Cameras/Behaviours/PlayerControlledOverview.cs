@@ -18,7 +18,7 @@ namespace Assets.Source.Battle.Cameras.Behaviours {
 
             if(UnityEngine.Input.GetMouseButton(2)) {
 
-                this.transform.Translate(new Vector3(-((Input.mousePosition.x - previousPosition.x) * 0.01f), 0.0f, 0.0f));
+                this.transform.Translate(new Vector3(-((Input.mousePosition.x - previousPosition.x) * 0.01f), -((Input.mousePosition.y - previousPosition.y) * 0.01f), 0.0f));
 
                 previousPosition = Input.mousePosition;
             }

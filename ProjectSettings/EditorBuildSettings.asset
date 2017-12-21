@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Battle.unity
     guid: 404aa973911d1494b856cf024c174e5d
+  - enabled: 1
+    path: Assets/Overworld.unity
+    guid: 4bef0a781e6989a4ca05144d4713820b

@@ -3,6 +3,7 @@ using Assets.Source.Battle.Actions.Miscellaneous;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells;
 using Assets.Source.Battle.Spells.Abilities;
+using Assets.Source.Engine.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,6 @@ namespace Assets.Source.Battle.Combatants {
             enabled = false;
 
             BattleEventManager.Instance().onBattleStart += this.Enable;
-            BattleEventManager.Instance().onCombatantDamaged += this.Flinch;
         }
 
         public virtual void Start() {
@@ -67,6 +67,10 @@ namespace Assets.Source.Battle.Combatants {
 
         public virtual Models.Statistics GetStats() {
             return null;
+        }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onBattleStart -= this.Enable;
         }
     }
 }

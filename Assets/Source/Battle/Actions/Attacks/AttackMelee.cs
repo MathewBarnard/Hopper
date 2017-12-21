@@ -2,6 +2,7 @@
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells;
 using Assets.Source.Battle.Spells.Entities;
+using Assets.Source.Engine.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Text;
 using UnityEngine;
 
 namespace Assets.Source.Battle.Actions.Attacks {
-    public class AttackMelee : CombatAction, ITargetedAction {
+    public class AttackMelee : ActorAction, ITargetedAction {
 
         private List<Combatant> targets;
         private Animator animator;

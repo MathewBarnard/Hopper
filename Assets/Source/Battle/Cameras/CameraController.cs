@@ -39,5 +39,11 @@ namespace Assets.Source.Battle.Cameras {
         public void ReturnToRest(List<Combatant> combatants) {
             this.targetPosition = cameraAnchors.transform.Find("Rest").gameObject;
         }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onBeginActionSelection -= SelectActionCamera;
+            BattleEventManager.Instance().onActionSelected -= SelectTargetCamera;
+            BattleEventManager.Instance().onTargetSelected -= ReturnToRest;
+        }
     } 
 }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Assets.Source.Engine.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace Assets.Source.Battle.Actions.Miscellaneous {
-    public class Flinch : CombatAction {
+    public class Flinch : ActorAction {
 
         private const float baseFlinchTime = 0.5f;
 

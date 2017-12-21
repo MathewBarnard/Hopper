@@ -4,6 +4,7 @@ using Assets.Source.Battle.Actions.Movement;
 using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Spells.Abilities.AbilityResults;
 using Assets.Source.Battle.System;
+using Assets.Source.Engine.Actions;
 using Assets.Source.Models;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace Assets.Source.Battle.Spells.Abilities {
         }
 
         public override void AttachScripts() {
-            List<CombatAction> actionsToQueue = new List<CombatAction>();
+            List<ActorAction> actionsToQueue = new List<ActorAction>();
 
             // Create each action
             actionsToQueue.Add(StepForward.CreateComponent(this.actingCombatant.gameObject, new UnityEngine.Vector3(-0.5f, 0.0f, 0.0f)));
@@ -80,7 +81,7 @@ namespace Assets.Source.Battle.Spells.Abilities {
             actionsToQueue.Add(StepForward.CreateComponent(this.actingCombatant.gameObject, new UnityEngine.Vector3(0.0f, 0.0f, 0.0f)));
             actionsToQueue.Add(this.actingCombatant.gameObject.AddComponent<TurnFinished>());
 
-            foreach (CombatAction combatAction in actionsToQueue) {
+            foreach (ActorAction combatAction in actionsToQueue) {
 
                 // Each action has a reference to its source ability.
                 combatAction.SetAbility(this);

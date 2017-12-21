@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e0f16b960269f4788419e52facec30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   combatant: {fileID: 114380468945667750}
 --- !u!114 &114380468945667750
 MonoBehaviour:
@@ -232,7 +233,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1561917938597106}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ddf48a4c158a94fa11b20b06a76b1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 32b9c38301dd0624b9d83ee8abfd4367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &212206955410293866

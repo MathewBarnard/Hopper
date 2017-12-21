@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Battle.Actions {
+namespace Assets.Source.Engine.Actions {
     public class ActionQueue : MonoBehaviour {
 
         /// <summary>
         /// The actions currently attached to the combatant. This queue represents the order of execution.
         /// </summary>
-        private LinkedList<CombatAction> actions;
+        private LinkedList<ActorAction> actions;
         public int ActionCount {
             get { return actions.Count; }
         }
@@ -18,7 +18,7 @@ namespace Assets.Source.Battle.Actions {
         /// <summary>
         /// The action currently being executed.
         /// </summary>
-        public CombatAction CurrentAction {
+        public ActorAction CurrentAction {
             get {
                 if (actions.Count > 0)
                     return actions.First.Value;
@@ -28,13 +28,13 @@ namespace Assets.Source.Battle.Actions {
         }
 
         void Awake() {
-            actions = new LinkedList<CombatAction>();
+            actions = new LinkedList<ActorAction>();
         }
 
         void Update() {
             if (actions.Count > 0) {
                 if (actions.First.Value.Complete == true) {
-                    CombatAction action = actions.First.Value;
+                    ActorAction action = actions.First.Value;
                     actions.RemoveFirst();
                     Destroy(action);
 
@@ -51,12 +51,12 @@ namespace Assets.Source.Battle.Actions {
         /// Add an action to the end of the queue.
         /// </summary>
         /// <param name="action">The action to add to the end of the queue.</param>
-        public void AddAction(CombatAction action) {
+        public void AddAction(ActorAction action) {
             if (action != null)
                 this.actions.AddLast(action);
         }
 
-        public void AddToFront(CombatAction action) {
+        public void AddToFront(ActorAction action) {
 
             if(action != null) {
 
@@ -73,7 +73,7 @@ namespace Assets.Source.Battle.Actions {
         /// Add multiple actions to the end of the queue. 
         /// </summary>
         /// <param name="actionsToQueue">The actions to add to the end of the queue. The order in the array defines execution order.</param>
-        public void AddActions(CombatAction[] actionsToQueue) {
+        public void AddActions(ActorAction[] actionsToQueue) {
             if (actionsToQueue != null) {
                 bool noPendingActions;
 
@@ -84,7 +84,7 @@ namespace Assets.Source.Battle.Actions {
                     noPendingActions = false;
                 }
 
-                foreach (CombatAction Action in actionsToQueue) {
+                foreach (ActorAction Action in actionsToQueue) {
                     this.actions.AddLast(Action);
                 }
 
@@ -98,9 +98,9 @@ namespace Assets.Source.Battle.Actions {
         /// Removes all currently queued actions from the queue, and replaces them with a new action.
         /// </summary>
         /// <param name="action">The action to perform immediately, cancelling all other actions.</param>
-        public void SetAction(CombatAction action) {
+        public void SetAction(ActorAction action) {
 
-            foreach (CombatAction queuedAction in actions) {
+            foreach (ActorAction queuedAction in actions) {
                 Destroy(queuedAction);
             }
 
@@ -115,16 +115,16 @@ namespace Assets.Source.Battle.Actions {
         ///  Removes all currently queued actions from the queue, and replaces them with a new series of actions.
         /// </summary>
         /// <param name="actionsToQueue">The actions to perform immediatelly, cancelling all other actions.</param>
-        public void SetActions(CombatAction[] actionsToQueue) {
+        public void SetActions(ActorAction[] actionsToQueue) {
             try {
 
-                foreach (CombatAction queuedAction in actions) {
+                foreach (ActorAction queuedAction in actions) {
                     Destroy(queuedAction);
                 }
 
                 actions.Clear();
 
-                foreach (CombatAction action in actionsToQueue) {
+                foreach (ActorAction action in actionsToQueue) {
                     actions.AddLast(action);
                 }
 

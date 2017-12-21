@@ -1,4 +1,5 @@
 ﻿using Assets.Source.Battle.Combatants;
+using Assets.Source.Engine.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using UnityEngine;
 
 namespace Assets.Source.Battle.Actions.Movement {
-    public class StepBackward: CombatAction {
+    public class StepBackward: ActorAction {
 
         private Vector3 targetLocation;
         public Vector3 TargetLocation {

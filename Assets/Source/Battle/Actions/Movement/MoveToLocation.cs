@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Assets.Source.Engine.Actions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace Assets.Source.Battle.Actions.Movement {
-    public class MoveToLocation : CombatAction {
+    public class MoveToLocation : ActorAction {
 
         private Vector3 targetLocation;
         public Vector3 TargetLocation {

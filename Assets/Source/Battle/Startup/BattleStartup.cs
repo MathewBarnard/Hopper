@@ -18,17 +18,19 @@ namespace Assets.Source.Battle.Startup {
     public class BattleStartup : MonoBehaviour  {
 
         private void Awake() {
+        }
 
+        private void Start() {
             // Get the player party from the data repository.
             Party playerParty = DataRepository.Instance().Parties.GetByName("main");
 
             List<GameObject> players = new List<GameObject>();
             List<GameObject> enemies = new List<GameObject>();
 
-            foreach(string partyMember in playerParty.Members) {
+            foreach (string partyMember in playerParty.Members) {
 
                 // We want to spawn a combatant for each player in the party.
-                GameObject playerCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "PlayerCharacter 1")));
+                GameObject playerCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "PlayerCharacter 1")),this.transform.parent);
                 PlayerCombatant player = playerCombatant.GetComponent<PlayerCombatant>();
                 player.Character = DataRepository.Instance().Characters.GetByName(partyMember);
                 players.Add(playerCombatant);
@@ -41,10 +43,10 @@ namespace Assets.Source.Battle.Startup {
             if (enemyParty == null)
                 enemyParty = DataRepository.Instance().Parties.GetByName("test1");
 
-            foreach(string partyMember in enemyParty.Members) {
+            foreach (string partyMember in enemyParty.Members) {
 
                 // We want to spawn a combatant for each player in the party.
-                GameObject enemyCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "Enemy")));
+                GameObject enemyCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "Enemy")),this.transform.parent);
                 EnemyCombatant enemy = enemyCombatant.GetComponent<EnemyCombatant>();
                 enemy.Enemy = DataRepository.Instance().Enemies.GetByName(partyMember);
                 enemies.Add(enemyCombatant);
@@ -56,9 +58,7 @@ namespace Assets.Source.Battle.Startup {
             unitPlacement.PlaceEnemies(enemies);
 
             GameObject.Find("BattleManager").GetComponent<BattleManager>().StoreCombatants(players, enemies);
-        }
 
-        private void Start() {
             BattleEventManager.Instance().BattleStart();
         } 
     }

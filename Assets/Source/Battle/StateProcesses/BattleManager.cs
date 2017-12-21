@@ -2,6 +2,7 @@
 using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells.Abilities;
+using Assets.Source.Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,7 @@ namespace Assets.Source.Battle.StateProcesses {
             BattleEventManager.Instance().onTargetSelected += TargetSelected;
             BattleEventManager.Instance().onBeginPlayTurn += ProcessTurn;
             BattleEventManager.Instance().onEndTurn += EndTurn;
+            BattleEventManager.Instance().onBattleEnd += BattleEnd;
             this.abilitySelection = new List<KeyValuePair<Combatant, Ability>>();
         }
 
@@ -147,7 +149,7 @@ namespace Assets.Source.Battle.StateProcesses {
         }
 
         public void ProcessTurn() {
-            this.turnController = new TurnController(this.abilitySelection);
+            this.turnController = new TurnController(this,this.abilitySelection);
         }
 
         private void EndTurn() {
@@ -157,6 +159,19 @@ namespace Assets.Source.Battle.StateProcesses {
             this.turnController = null;
             SetupQueue();
             NextTurn();
+        }
+
+        public void BattleEnd() {
+            EngineEventManager.Instance().GameStateExit();
+        }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onBattleStart -= NextTurn;
+            BattleEventManager.Instance().onActionSelected -= ActionSelected;
+            BattleEventManager.Instance().onTargetSelected -= TargetSelected;
+            BattleEventManager.Instance().onBeginPlayTurn -= ProcessTurn;
+            BattleEventManager.Instance().onEndTurn -= EndTurn;
+            BattleEventManager.Instance().onBattleEnd -= BattleEnd;
         }
     }
 }

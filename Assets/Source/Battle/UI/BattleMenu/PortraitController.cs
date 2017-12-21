@@ -30,5 +30,10 @@ namespace Assets.Source.Battle.UI.BattleMenu {
         public void HidePortrait(List<Combatant> combatants)  {
             this.currentPortrait.SetActive(false);
         }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onBeginActionSelection -= SwitchPortrait;
+            BattleEventManager.Instance().onTargetSelected -= HidePortrait;
+        }
     }
 }

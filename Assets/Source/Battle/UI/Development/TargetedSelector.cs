@@ -10,6 +10,7 @@ using UnityEngine;
 namespace Assets.Source.Battle.UI.Development {
     public class TargetedSelector : MonoBehaviour {
 
+        public Animator animator;
         public Combatant combatant;
         public Ability ability;
 
@@ -19,10 +20,20 @@ namespace Assets.Source.Battle.UI.Development {
 
         void Awake() {
 
+            this.animator = this.gameObject.GetComponent<Animator>();
+
             BattleEventManager.Instance().onActionSelected += CheckIfTargetable;
             BattleEventManager.Instance().onTargetSelected += Disable;
 
             this.gameObject.SetActive(false);
+        }
+
+        private void OnMouseOver() {
+            this.animator.SetBool("isHighlighted", true);
+        }
+
+        private void OnMouseExit() {
+            this.animator.SetBool("isHighlighted", false);
         }
 
         public void CheckIfTargetable(Combatant combatant, Ability ability) {
@@ -51,6 +62,11 @@ namespace Assets.Source.Battle.UI.Development {
 
             this.ability = null;
             this.gameObject.SetActive(false);
+        }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onActionSelected -= CheckIfTargetable;
+            BattleEventManager.Instance().onTargetSelected -= Disable;
         }
     }
 }

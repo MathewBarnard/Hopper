@@ -81,5 +81,10 @@ namespace Assets.Source.Battle.UI.Development {
             this.ability = null;
             this.enabled = false;
         }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onActionSelected -= Enable;
+            BattleEventManager.Instance().onTargetingCancelled -= Disable;
+        }
     }
 }

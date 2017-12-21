@@ -29,5 +29,9 @@ namespace Assets.Source.Battle.UI {
         public void ShowTargetingReticule(Ability ability) {
 
         }
+
+        public void OnDestroy() {
+            BattleEventManager.Instance().onBeginActionSelection -= ShowMenu;
+        }
     }
 }

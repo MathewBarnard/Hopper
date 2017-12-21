@@ -16,6 +16,8 @@ namespace Assets.Source.Battle.System {
 
             int damage = attackerStats.Attack.Current - (defenderStats.Defense.Current / 2);
 
+            defenderStats.Health.Current -= damage;
+
             return new AbilityResult(defender, damage);
         }
 
@@ -25,6 +27,8 @@ namespace Assets.Source.Battle.System {
             Statistics defenderStats = defender.GetStats();
 
             int damage = ((attackerStats.Attack.Current / 100) * attackModifier) - (defenderStats.Defense.Current / 2);
+
+            defenderStats.Health.Current -= damage;
 
             return new AbilityResult(defender, damage);
         }
