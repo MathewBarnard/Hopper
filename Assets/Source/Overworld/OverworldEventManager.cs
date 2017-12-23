@@ -1,10 +1,10 @@
-﻿using Assets.Source.Dungeon.Map;
+﻿using Assets.Source.Overworld.Map;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Source.Dungeon {
+namespace Assets.Source.Overworld {
 
     // Events handling occurances during the Overworld screen.
     public delegate void MapNodeClicked(MapNode node);

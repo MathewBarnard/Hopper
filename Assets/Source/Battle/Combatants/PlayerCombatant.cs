@@ -17,7 +17,7 @@ namespace Assets.Source.Battle.Combatants {
             get { return character; }
             set {
                 character = value;
-                this.spellbook = new Spellbook(this, this.character.Abilities);
+                this.spellbook = new Spellbook(this, this.character.AbilityGroups);
             }
         }
 

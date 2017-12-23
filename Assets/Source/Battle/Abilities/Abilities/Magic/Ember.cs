@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Assets.Source.Battle.Combatants;
+using Assets.Source.Battle.Spells.Abilities.AbilityResults;
+using Assets.Source.Battle.StateProcesses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,16 +17,6 @@ namespace Assets.Source.Battle.Spells.Abilities.Magic {
 
         }
 
-        public override Type[] GetActions() {
-
-            Type[] actions = new Type[2];
-
-            actions[0] = typeof(Actions.Abilities.Casting);
-            actions[1] = typeof(Actions.Attacks.Ember);
-
-            return actions;
-        }
-
         public override string Name() {
             return "ember";
         }
@@ -32,15 +25,11 @@ namespace Assets.Source.Battle.Spells.Abilities.Magic {
             return Spells.AbilityType.ember;
         }
 
-        public override void Process() {
+        public override List<AbilityResult> Process(List<Combatant> targets) {
             throw new NotImplementedException();
         }
 
-        public override void AttachScripts() {
-            throw new NotImplementedException();
-        }
-
-        public override void ApplyMomentum(int momentum) {
+        public override void AttachScripts(AbilitySelection abilitySelection) {
             throw new NotImplementedException();
         }
     }

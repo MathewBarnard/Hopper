@@ -49,7 +49,7 @@ namespace Assets.Source.Battle.Actions.Attacks {
             foreach (Combatant target in targets) {
                 GameObject spell = Instantiate((GameObject)Resources.Load("Prefabs/Battle/Spells/sword_attack_0"), target.transform.position, Quaternion.identity);
                 this.spellAnimation = spell.GetComponent<AttackMeleeAnimation>();
-                this.spellAnimation.sourceAbility = this.ability;
+                this.spellAnimation.abilitySelection = this.abilitySelection;
                 this.spellAnimation.source = this.combatant;
                 this.spellAnimation.target = target;
             }

@@ -1,5 +1,6 @@
 ﻿using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Spells.Abilities;
+using Assets.Source.Battle.StateProcesses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,9 @@ namespace Assets.Source.Engine.Actions {
         protected Combatant combatant;
 
         /// <summary>
-        /// The ability that triggered this action.
+        /// Ability, targets and results for this action.
         /// </summary>
-        protected Ability ability;
+        protected AbilitySelection abilitySelection;
 
         /// <summary>
         /// A period of time before we consider this action "complete." The grace period begins counting down once
@@ -44,8 +45,8 @@ namespace Assets.Source.Engine.Actions {
             get { return complete; }
         }
 
-        public void SetAbility(Ability ability) {
-            this.ability = ability;
+        public void SetAbilitySelection(AbilitySelection abilitySelection) {
+            this.abilitySelection = abilitySelection;
         }
 
         public virtual void Awake() {

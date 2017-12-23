@@ -1,4 +1,4 @@
-﻿using Assets.Source.Dungeon.Map;
+﻿using Assets.Source.Overworld.Map;
 using Assets.Source.Engine.Actions;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Dungeon.Actors.ActorActions {
+namespace Assets.Source.Overworld.Actors.ActorActions {
     public class MoveToNode : ActorAction {
 
         private MapNode origin;

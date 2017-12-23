@@ -28,8 +28,7 @@ namespace Assets.Source.Battle.UI.Development {
         }
 
         public void AttackSelected() {
-            Ability ability = actingCombatant.Spellbook.All.Where(abl => abl.abilityType == Spells.AbilityType.attackmelee).FirstOrDefault();
-            ability.ApplyMomentum(momentum);
+            Ability ability = actingCombatant.Spellbook.All.Where(abl => abl.Name() == "knife_throw").FirstOrDefault();
             BattleEventManager.Instance().ActionSelected(actingCombatant, ability);
             this.gameObject.SetActive(false);
         }

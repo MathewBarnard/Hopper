@@ -9,7 +9,7 @@ namespace Assets.Source.Battle.Actions.Miscellaneous {
     public class TurnFinished : ActorAction {
 
         private void Start() {
-            BattleEventManager.Instance().AbilityCompleted(this.combatant, this.ability);
+            BattleEventManager.Instance().AbilityCompleted(this.combatant, this.abilitySelection.ability);
             this.complete = true;
         }
     }

@@ -43,12 +43,12 @@ namespace Assets.Source.Battle.UI.Development {
             // If this is a player targetter, only check defensive abilities.
             if(this.combatant is PlayerCombatant) {
 
-                if(ability.TargetingType == TargetingType.DEFENSIVE_ALL || ability.TargetingType == TargetingType.DEFENSIVE_SINGLE) {
+                if(ability.TargetingType() == TargetingType.DEFENSIVE_ALL || ability.TargetingType() == TargetingType.DEFENSIVE_SINGLE) {
                     Enable();
                 }
             }
             else {
-                if(ability.TargetingType == TargetingType.OFFENSIVE_ALL || ability.TargetingType == TargetingType.OFFENSIVE_SINGLE) {
+                if(ability.TargetingType() == TargetingType.OFFENSIVE_ALL || ability.TargetingType() == TargetingType.OFFENSIVE_SINGLE) {
                     Enable();
                 }
             }

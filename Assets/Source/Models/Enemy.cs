@@ -23,7 +23,7 @@ namespace Assets.Source.Models {
         public Statistics Stats;
 
         [XmlArray(ElementName = "Abilities")]
-        [XmlArrayItem("Ability")]
-        public List<Ability> Abilities;
+        [XmlArrayItem("AbilityGroup")]
+        public List<AbilityGroup> Abilities;
     }
 }

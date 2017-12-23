@@ -18,7 +18,7 @@ namespace Assets.Source.Battle.Spells.Entities {
 
         public void ShowDamage() {
 
-            this.SpawnNumber((this.sourceAbility as AttackMelee).damageDealt.Where(result => result.Target == this.target).FirstOrDefault().Result, this.target.transform.position);
+            this.SpawnNumber(this.abilitySelection.results.Where(result => result.Target == this.target).FirstOrDefault().Result, this.target.transform.position);
         }
     }
 }

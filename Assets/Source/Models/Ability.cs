@@ -19,11 +19,23 @@ namespace Assets.Source.Models {
         [XmlElement(ElementName = "Name")]
         public string Name;
 
+        [XmlElement(ElementName = "Description")]
+        public string Description;
+
+        [XmlElement(ElementName = "Cost")]
+        public int Cost;
+
+        [XmlElement(ElementName = "PhysicalDamageModifier")]
+        public int PhysicalDamageModifier;
+
         [XmlElement(ElementName = "TargetingType")]
         public Assets.Source.Battle.Spells.Abilities.TargetingType TargetingType;
 
-        [XmlArray(ElementName = "AbilityLevels")]
-        [XmlArrayItem("AbilityLevel")]
-        public List<AbilityLevel> AbilityLevels;
+        [XmlArray(ElementName = "StatusEffects")]
+        [XmlArrayItem("StatusEffect")]
+        public List<StatusEffect> StatusEffects;
+
+        [XmlElement(ElementName = "Metadata")]
+        public Metadata Metadata;
     }
 }

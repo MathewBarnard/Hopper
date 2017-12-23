@@ -6,20 +6,13 @@ using System.Xml.Serialization;
 
 namespace Assets.Source.Models {
 
-    [Serializable, XmlRoot(ElementName = "Character")]
-    public class Character {
+    [Serializable]
+    public class StatusEffect {
 
         [XmlElement(ElementName = "Id")]
         public Guid Id;
 
         [XmlElement(ElementName = "Name")]
         public string Name;
-
-        [XmlElement(ElementName = "Stats")]
-        public Statistics Stats;
-
-        [XmlArray(ElementName = "AbilityGroups")]
-        [XmlArrayItem("AbilityGroup")]
-        public List<AbilityGroup> AbilityGroups;
     }
 }

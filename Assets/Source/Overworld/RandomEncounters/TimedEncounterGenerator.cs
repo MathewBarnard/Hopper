@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Assets.Source.Dungeon.RandomEncounters {
+namespace Assets.Source.Overworld.RandomEncounters {
     public class TimedEncounterGenerator : RandomEncounterGenerator {
 
         private float time;

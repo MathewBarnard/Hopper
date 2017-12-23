@@ -41,7 +41,7 @@ namespace Assets.Source.Battle.StateProcesses {
         /// <summary>
         /// The abilities that have been selected this turn
         /// </summary>
-        private List<KeyValuePair<Combatant,Ability>> abilitySelection;
+        private List<AbilitySelection> abilitySelection;
 
         /// <summary>
         /// The currently acting combatant
@@ -64,7 +64,7 @@ namespace Assets.Source.Battle.StateProcesses {
             BattleEventManager.Instance().onBeginPlayTurn += ProcessTurn;
             BattleEventManager.Instance().onEndTurn += EndTurn;
             BattleEventManager.Instance().onBattleEnd += BattleEnd;
-            this.abilitySelection = new List<KeyValuePair<Combatant, Ability>>();
+            this.abilitySelection = new List<AbilitySelection>();
         }
 
         /// <summary>
@@ -138,13 +138,15 @@ namespace Assets.Source.Battle.StateProcesses {
         }
 
         private void ActionSelected(Combatant combatant, Ability ability) {
-            this.abilitySelection.Add(new KeyValuePair<Combatant, Ability>(combatant, ability));
+            // The ability knows which combatant is using it.
+            ability.ActingCombatant = combatant;
+
+            this.abilitySelection.Add(new AbilitySelection { combatant = combatant, ability = ability} );
         }
 
         private void TargetSelected(List<Combatant> targets) {
 
-            this.abilitySelection.Find(c => c.Key == actingCombatant).Value.Targets = targets;
-
+            abilitySelection.Where(abl => abl.combatant == actingCombatant).First().targets = targets;
             NextCombatant();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells.Abilities;
+using Assets.Source.Battle.StateProcesses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Assets.Source.Battle.Spells {
         private Animator animator;
         public Combatant target;
         public Combatant source;
-        public Ability sourceAbility;
+        public AbilitySelection abilitySelection;
 
         private void Start() {
             this.animator = this.gameObject.GetComponent<Animator>();

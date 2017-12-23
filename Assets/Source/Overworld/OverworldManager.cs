@@ -1,7 +1,7 @@
-﻿using Assets.Source.Dungeon.Actors;
-using Assets.Source.Dungeon.Actors.ActorActions;
-using Assets.Source.Dungeon.Map;
-using Assets.Source.Dungeon.RandomEncounters;
+﻿using Assets.Source.Overworld.Actors;
+using Assets.Source.Overworld.Actors.ActorActions;
+using Assets.Source.Overworld.Map;
+using Assets.Source.Overworld.RandomEncounters;
 using Assets.Source.Engine;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Source.Dungeon {
+namespace Assets.Source.Overworld {
 
     public enum OverworldState { PLANNING, TRAVELLING, EVENT, COMBAT }
 

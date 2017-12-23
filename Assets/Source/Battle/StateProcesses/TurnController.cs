@@ -13,9 +13,9 @@ namespace Assets.Source.Battle.StateProcesses {
 
         private BattleManager battleManager;
         private int index;
-        private List<KeyValuePair<Combatant, Ability>> abilitySelections;
+        private List<AbilitySelection> abilitySelections;
 
-        public TurnController(BattleManager manager, List<KeyValuePair<Combatant, Ability>> abilitySelections) {
+        public TurnController(BattleManager manager, List<AbilitySelection> abilitySelections) {
             this.battleManager = manager;
             this.abilitySelections = abilitySelections;
             this.index = 0;
@@ -35,8 +35,8 @@ namespace Assets.Source.Battle.StateProcesses {
             } 
             // Process the ability
             else {
-                abilitySelections[index].Value.Process();
-                abilitySelections[index].Value.AttachScripts();
+                abilitySelections[index].results = abilitySelections[index].ability.Process(abilitySelections[index].targets);
+                abilitySelections[index].ability.AttachScripts(abilitySelections[index]);
                 index++;
             }
         }

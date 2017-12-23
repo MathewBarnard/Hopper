@@ -1,18 +1,18 @@
-﻿using Assets.Source.Dungeon.Actors;
+﻿using Assets.Source.Overworld.Actors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Dungeon.Map {
+namespace Assets.Source.Overworld.Map {
     public class MapNode : MonoBehaviour {
 
         private SpriteRenderer spriteRenderer;
 
         private bool isDestination;
         public Actor inhabitingActor;
-        public List<MapNode> availableNodes;
+        public List<MapNode> connectedNodes;
 
         public void Awake() {
             this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
@@ -45,7 +45,7 @@ namespace Assets.Source.Dungeon.Map {
         public bool IsAdjacentToPlayer() {
 
             // Check all adjacent nodes for the player
-            foreach(MapNode node in availableNodes) {
+            foreach(MapNode node in connectedNodes) {
                 if(node.inhabitingActor != null && node.inhabitingActor is PlayerParty) {
                     return true;
                 }

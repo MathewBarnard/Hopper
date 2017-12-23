@@ -36,17 +36,17 @@ namespace Assets.Source.DataAccessLayer {
 
             // Instantiate our entity wrappers.
             this.Characters = new CharacterWrapper();
-            this.Characters.GetByName("jack");
-            this.Characters.GetByName("test1");
-            this.Characters.GetByName("test2");
-            this.Characters.GetByName("test3");
+            this.Characters.GetByName("jack - Copy");
+            //this.Characters.GetByName("test1");
+            //this.Characters.GetByName("test2");
+            //this.Characters.GetByName("test3");
         }
 
         public void LoadAllEnemies() {
 
             // Instantiate our entity wrappers.
             this.Enemies = new EnemyWrapper();
-            this.Enemies.GetByName("monster1");
+            //this.Enemies.GetByName("monster1");
         }
 
         public void LoadAllParties() {

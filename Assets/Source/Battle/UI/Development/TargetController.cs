@@ -37,13 +37,13 @@ namespace Assets.Source.Battle.UI.Development {
 
                     List<Combatant> targets = new List<Combatant>();
 
-                    if (this.ability.TargetingType == TargetingType.OFFENSIVE_SINGLE || this.ability.TargetingType == TargetingType.OFFENSIVE_ALL) {
+                    if (this.ability.TargetingType() == TargetingType.OFFENSIVE_SINGLE || this.ability.TargetingType() == TargetingType.OFFENSIVE_ALL) {
 
                         foreach (EnemyCombatant enemy in enemies) {
 
                             if (hit.collider.gameObject == enemy.gameObject) {
 
-                                if(this.ability.TargetingType == TargetingType.OFFENSIVE_SINGLE)
+                                if(this.ability.TargetingType() == TargetingType.OFFENSIVE_SINGLE)
                                     targets.Add(enemy);
                                 else
                                     targets.AddRange(enemies.Cast<Combatant>().ToList());
@@ -53,12 +53,12 @@ namespace Assets.Source.Battle.UI.Development {
                             }
                         }
                     }
-                    else if(this.ability.TargetingType == TargetingType.DEFENSIVE_SINGLE || this.ability.TargetingType == TargetingType.DEFENSIVE_ALL) {
+                    else if(this.ability.TargetingType() == TargetingType.DEFENSIVE_SINGLE || this.ability.TargetingType() == TargetingType.DEFENSIVE_ALL) {
                         foreach(PlayerCombatant player in players) {
 
                             if (hit.collider.gameObject == player.gameObject) {
                                 
-                                if(this.ability.TargetingType == TargetingType.DEFENSIVE_SINGLE)
+                                if(this.ability.TargetingType() == TargetingType.DEFENSIVE_SINGLE)
                                     targets.Add(player);
                                 else
                                     targets.AddRange(players.Cast<Combatant>().ToList());

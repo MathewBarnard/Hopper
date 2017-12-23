@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Dungeon.Map {
+namespace Assets.Source.Overworld.Map {
     public class NodeManager : MonoBehaviour {
 
         private List<MapNode> allNodes;

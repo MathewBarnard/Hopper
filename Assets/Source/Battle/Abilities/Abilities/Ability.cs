@@ -1,6 +1,8 @@
 ﻿using Assets.Source.Battle.Actions;
 using Assets.Source.Battle.Combatants;
 using Assets.Source.Battle.Events;
+using Assets.Source.Battle.Spells.Abilities.AbilityResults;
+using Assets.Source.Battle.StateProcesses;
 using Assets.Source.Models;
 using System;
 using System.Collections.Generic;
@@ -13,18 +15,13 @@ namespace Assets.Source.Battle.Spells.Abilities {
 
     public abstract class Ability {
 
-        protected TargetingType targetingType;
-        public TargetingType TargetingType {
-            get { return targetingType; }
+        protected Models.Ability model;
+        public Models.Ability Model {
+            get { return model; }
         }
 
         public AbilityType abilityType;
         public abstract AbilityType AbilityType();
-
-        protected List<AbilityLevel> abilityLevels;
-        public List<AbilityLevel> AbilityLevels {
-            get { return abilityLevels; }
-        }
 
         protected List<Combatant> targets;
         public List<Combatant> Targets {
@@ -44,19 +41,16 @@ namespace Assets.Source.Battle.Spells.Abilities {
             set { momentumApplied = value; }
         }
 
-        /// <summary>
-        /// Returns a list of the actions to be performed. We perform reflection later to allow us to infer the type of each
-        /// action at the point of attaching the script to the player.
-        /// </summary>
-        /// <returns></returns>
-        public abstract Type[] GetActions();
+        public virtual string Name() {
+            return this.model.Name;
+        }
 
-        public abstract string Name();
+        public virtual TargetingType TargetingType() {
+            return this.model.TargetingType;
+        }
 
-        public abstract void Process();
+        public abstract List<AbilityResult> Process(List<Combatant> targets);
 
-        public abstract void AttachScripts();
-
-        public abstract void ApplyMomentum(int momentum);
+        public abstract void AttachScripts(AbilitySelection abilitySelection);
     }
 }
