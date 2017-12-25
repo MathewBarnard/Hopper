@@ -8,12 +8,18 @@ using UnityEngine;
 namespace Assets.Source.Overworld.Map {
     public class HexTile : MonoBehaviour {
 
-        private SpriteRenderer spriteRenderer;
+        // The grid this tile belongs to
+        public HexGrid GridParent;
 
-        private Vector2 normalisedPosition;
-        private Vector3 hexCoordinates;
+        protected SpriteRenderer spriteRenderer;
 
-        private bool isDestination;
+        protected Vector2 normalisedPosition;
+        public Vector3 hexCoordinates;
+        public Vector3 Coordinates {
+            get { return hexCoordinates; }
+        }
+
+        protected bool isDestination;
         public Actor inhabitingActor;
         public List<HexTile> connectedNodes;
 
@@ -27,16 +33,21 @@ namespace Assets.Source.Overworld.Map {
             return this.hexCoordinates;
         }
 
+        public Vector3 SetCoordinates(Vector3 coordinates) {
+            this.hexCoordinates = coordinates;
+            return this.hexCoordinates;
+        }
+
         public void Awake() {
             this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
         }
 
-        public void OnMouseOver() {
+        public void OnMouseEnter() {
             if (IsAdjacentToPlayer() && !this.isDestination) {
                 this.spriteRenderer.color = Color.green;
             }
             else {
-                Debug.Log(this.hexCoordinates);
+                //Debug.Log(this.hexCoordinates);
                 this.spriteRenderer.color = Color.red;
             }
         }
@@ -61,14 +72,14 @@ namespace Assets.Source.Overworld.Map {
 
         public bool IsAdjacentToPlayer() {
 
-            // Check all adjacent nodes for the player
-            foreach (HexTile node in connectedNodes) {
-                if (node.inhabitingActor != null && node.inhabitingActor is PlayerParty) {
-                    return true;
-                }
-            }
+            List<HexTile> adjacentNodes = GridParent.GetAdjacentNodes(this);
 
-            return false;
+            HexTile playerTile = adjacentNodes.Where(tile => tile.inhabitingActor != null).FirstOrDefault();
+
+            if (playerTile == null)
+                return false;
+            else
+                return true;
         }
     }
 }
