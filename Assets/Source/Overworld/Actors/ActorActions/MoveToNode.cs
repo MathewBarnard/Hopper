@@ -9,10 +9,10 @@ using UnityEngine;
 namespace Assets.Source.Overworld.Actors.ActorActions {
     public class MoveToNode : ActorAction {
 
-        private MapNode origin;
-        private MapNode destination;
+        private HexTile origin;
+        private HexTile destination;
 
-        public static MoveToNode CreateComponent(GameObject objectToAttachTo, MapNode origin, MapNode destination) {
+        public static MoveToNode CreateComponent(GameObject objectToAttachTo, HexTile origin, HexTile destination) {
             MoveToNode action = objectToAttachTo.AddComponent<MoveToNode>();
             action.origin = origin;
             action.destination = destination;

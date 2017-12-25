@@ -8,9 +8,9 @@ using UnityEngine;
 namespace Assets.Source.Overworld.Actors {
     public abstract class Actor : MonoBehaviour {
 
-        private MapNode destination;
-        private MapNode inhabitedNode;
-        public MapNode InhabitedNode {
+        private HexTile destination;
+        private HexTile inhabitedNode;
+        public HexTile InhabitedNode {
             get { return inhabitedNode; }
         }
 

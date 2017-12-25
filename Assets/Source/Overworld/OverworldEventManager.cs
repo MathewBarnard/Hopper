@@ -7,9 +7,9 @@ using System.Text;
 namespace Assets.Source.Overworld {
 
     // Events handling occurances during the Overworld screen.
-    public delegate void MapNodeClicked(MapNode node);
+    public delegate void HexTileClicked(HexTile tile);
 
-    public delegate void TravelStart(MapNode node);
+    public delegate void TravelStart(HexTile node);
 
     public class OverworldEventManager {
 
@@ -24,17 +24,17 @@ namespace Assets.Source.Overworld {
         }
 
         // User input
-        public MapNodeClicked onMapNodeClicked;
+        public HexTileClicked onHexTileClicked;
 
         // State changes
         public TravelStart onTravelStart;
 
-        public void MapNodeClicked(MapNode node) {
-            if (onMapNodeClicked != null)
-                onMapNodeClicked.Invoke(node);
+        public void HexTileClicked(HexTile tile) {
+            if (onHexTileClicked != null)
+                onHexTileClicked.Invoke(tile);
         }
 
-        public void TravelStart(MapNode node) {
+        public void TravelStart(HexTile node) {
             if (onTravelStart != null)
                 onTravelStart.Invoke(node);
         }
