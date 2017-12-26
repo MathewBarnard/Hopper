@@ -21,7 +21,25 @@ namespace Assets.Source.Overworld.Actors.ActorActions {
         }
 
         private void Update() {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, this.destination.transform.position, 0.5f * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, this.destination.transform.position, 1.0f * Time.deltaTime);
+
+            if (this.transform.position == this.destination.transform.position) {
+
+                Actor traveller = origin.inhabitingActor;
+    
+                // The actor stores the currently inhabited tile.
+                traveller.InhabitedNode = this.destination;
+
+                // Move player from origin tile to destination tile
+                this.origin.Uninhabit();
+                this.destination.Inhabit(traveller);
+
+                this.complete = true;
+            }
+        }
+
+        public void OnDestroy() {
+            OverworldEventManager.Instance().ArrivedAtTile(destination);
         }
     }
 }

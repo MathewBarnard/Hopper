@@ -20,38 +20,52 @@ namespace Assets.Source.Overworld {
 
         private OverworldState overworldGameState;
         public RandomEncounterGenerator randomEncounterGenerator;
+        public HexGrid hexGrid;
         public PlayerParty playerActor;
-        private HexTile destination;
 
         public void Awake() {
             this.overworldGameState = OverworldState.PLANNING;
-            this.randomEncounterGenerator = new TimedEncounterGenerator(5.0f);
-            OverworldEventManager.Instance().onHexTileClicked += SetDestination;
-            OverworldEventManager.Instance().onTravelStart += TravelStart;
-        }
-
-        public void Update() {
-            //if(this.overworldGameState == OverworldState.TRAVELLING && this.randomEncounterGenerator.CheckForEncounter()) {
-            //    EngineEventManager.Instance().TransitionGameState(Engine.GameStates.Transitions.GameState.Battle, LoadSceneMode.Additive);
-            //}
-        }
-
-        public void SetDestination(HexTile node) {
-            if(this.destination != null)
-                this.destination.Deselect();
-
-            this.destination = node;
-            Debug.Log("Destination set!");
-        }
-
-        public void TravelCheck() {
-            OverworldEventManager.Instance().TravelStart(this.destination);
+            this.randomEncounterGenerator = new ArriveEncounterGenerator();
+            OverworldEventManager.Instance().onHexTileClicked += TravelStart;
+            OverworldEventManager.Instance().onArrivedAtTile += ProcessTileEvents;
         }
 
         public void TravelStart(HexTile node) {
             this.overworldGameState = OverworldState.TRAVELLING;
             this.playerActor.GetComponent<Engine.Actions.ActionQueue>().AddToFront(MoveToNode.CreateComponent(this.playerActor.gameObject, this.playerActor.InhabitedNode, node));
             Debug.Log("Travelling to destination!");
+        }
+
+        public void ProcessTileEvents(HexTile tile) {
+
+            // Generate a random encounter.
+            Debug.Log("Arrived!");
+            
+            if(this.randomEncounterGenerator.CheckForEncounter(tile)) {
+                Debug.Log("Beginning encounter");
+                EngineEventManager.Instance().TransitionGameState(Engine.GameStates.Transitions.GameState.Battle, LoadSceneMode.Additive);
+            }
+        }
+
+        public void Update() {
+
+            // Controls map edit mode.
+            if(Input.GetKeyDown(KeyCode.Alpha9)) {
+
+                if ((int)this.hexGrid.gridEditorMode == Enum.GetValues(typeof(GridEditorMode)).Length - 1)
+                    this.hexGrid.gridEditorMode = 0;
+                else
+                    this.hexGrid.gridEditorMode += 1;
+
+                if(this.hexGrid.gridEditorMode == GridEditorMode.PLAY) {
+                    OverworldEventManager.Instance().onHexTileClicked += TravelStart;
+                    this.hexGrid.RemoveHexEditor();
+                }
+                else if(this.hexGrid.gridEditorMode == GridEditorMode.EDIT) {
+                    OverworldEventManager.Instance().onHexTileClicked -= TravelStart;
+                    this.hexGrid.AddHexEditor();
+                }
+            }
         }
     }
 }

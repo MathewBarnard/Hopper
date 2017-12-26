@@ -22,6 +22,11 @@ namespace Assets.Source.Battle.Cameras.Behaviours {
 
                 previousPosition = Input.mousePosition;
             }
+
+            if(UnityEngine.Input.GetAxis("Mouse ScrollWheel") != 0) {
+
+                this.gameObject.GetComponent<Camera>().orthographicSize += UnityEngine.Input.GetAxis("Mouse ScrollWheel") * -0.5f;
+            }
         }
     }
 }

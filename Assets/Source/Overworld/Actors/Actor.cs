@@ -12,6 +12,7 @@ namespace Assets.Source.Overworld.Actors {
         private HexTile inhabitedNode;
         public HexTile InhabitedNode {
             get { return inhabitedNode; }
+            set { inhabitedNode = value; }
         }
 
         private void Update() {
