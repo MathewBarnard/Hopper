@@ -1,10 +1,10 @@
 ﻿using Assets.Source.Battle.Combatants;
-using Assets.Source.Battle.UI.Development;
 using UnityEngine;
 using Assets.Source.Battle.UI.Callbacks;
 using System.Collections.Generic;
 using Assets.Source.Battle.Events;
 using Assets.Source.Battle.Spells.Abilities;
+using Assets.Source.Battle.UI;
 
 namespace Assets.Source.Battle.UI {
     public class UIController : MonoBehaviour {
@@ -12,7 +12,7 @@ namespace Assets.Source.Battle.UI {
         public static UIController instance;
         public Canvas overlayCanvas;
         public Canvas mainCanvas;
-        public BattleMenuMain menuAnchor;
+        public BattleMenu menuAnchor;
 
         private void Awake() {
             UIController.instance = this;

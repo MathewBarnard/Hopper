@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Assets.Source.Battle.UI.BattleMenu {
+namespace Assets.Source.Battle.UI  {
     public class PortraitController : MonoBehaviour {
 
         private GameObject currentPortrait;

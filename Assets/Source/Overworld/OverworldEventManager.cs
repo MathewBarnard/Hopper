@@ -7,6 +7,8 @@ using System.Text;
 namespace Assets.Source.Overworld {
 
     // Events handling occurances during the Overworld screen.
+    public delegate void HexTileFocused(HexTile tile);
+    public delegate void HexTileUnfocused(HexTile tile);
     public delegate void HexTileClicked(HexTile tile);
 
     public delegate void TravelStart(HexTile node);
@@ -26,6 +28,8 @@ namespace Assets.Source.Overworld {
 
         // User input
         public HexTileClicked onHexTileClicked;
+        public HexTileFocused onHexTileFocused;
+        public HexTileUnfocused onHexTileUnfocused;
 
         // State changes
         public TravelStart onTravelStart;
@@ -34,6 +38,16 @@ namespace Assets.Source.Overworld {
         public void HexTileClicked(HexTile tile) {
             if (onHexTileClicked != null)
                 onHexTileClicked.Invoke(tile);
+        }
+
+        public void HexTileFocused(HexTile tile) {
+            if (onHexTileFocused != null)
+                onHexTileFocused.Invoke(tile);
+        }
+
+        public void HexTileUnfocused(HexTile tile) {
+            if (onHexTileUnfocused != null)
+                onHexTileUnfocused.Invoke(tile);
         }
 
         public void TravelStart(HexTile tile) {

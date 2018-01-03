@@ -15,8 +15,10 @@ namespace Assets.Source.Overworld.Map.Development {
 
         private void Start() {
 
-            this.hexGrid.Origin.inhabitingActor = playerPartyActor;
-            this.playerPartyActor.GetComponent<Engine.Actions.ActionQueue>().AddToFront(MoveToNode.CreateComponent(this.playerPartyActor.gameObject, this.hexGrid.Origin, this.hexGrid.Origin));
+            this.playerPartyActor.InhabitedNode = this.hexGrid.Centre;
+            this.hexGrid.Centre.inhabitingActor = playerPartyActor;
+            this.playerPartyActor.transform.position = hexGrid.Centre.gameObject.transform.position;
+            this.playerPartyActor.GetComponent<Engine.Actions.ActionQueue>().AddToFront(MoveToNode.CreateComponent(this.playerPartyActor.gameObject, this.hexGrid.Centre, this.hexGrid.Centre));
         }
     }
 }

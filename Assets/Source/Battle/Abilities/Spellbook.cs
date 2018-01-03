@@ -28,6 +28,22 @@ namespace Assets.Source.Battle.Spells {
             }
         }
 
+        public List<Ability> Skills {
+            get {
+                List<Ability> abilities = new List<Ability>();
+
+                foreach (AbilityGroup abilityGroup in abilitiesByGroup) {
+                    foreach (Ability ability in abilityGroup.abilities) {
+                        if (ability.Name().ToLower() != "attack") {
+                            abilities.Add(ability);
+                        }
+                    }
+                }
+
+                return abilities;
+            }
+        }
+
         public Spellbook(Combatant combatant, string[] spells) {
 
             this.abilitiesByGroup = new List<AbilityGroup>();

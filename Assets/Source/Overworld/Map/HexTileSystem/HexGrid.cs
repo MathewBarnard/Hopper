@@ -27,6 +27,11 @@ namespace Assets.Source.Overworld.Map {
             get { return tiles[0]; }
         }
 
+        private HexTile centre;
+        public HexTile Centre {
+            get { return centre; }
+        }
+
         private void Awake() {
 
             this.tiles = new List<HexTile>();
@@ -37,6 +42,9 @@ namespace Assets.Source.Overworld.Map {
             else {
                 HexGridGenerator.GenerateFromFile(this, mapToLoad);
             }
+
+            // Set centre
+            centre = tiles.Where(tile => tile.Coordinates.x == width / 2 && tile.Coordinates.y == height / 2).FirstOrDefault();
         }
 
         public List<HexTile> GetAdjacentNodes(HexTile tileToCheck) {
@@ -48,6 +56,13 @@ namespace Assets.Source.Overworld.Map {
                                          (tile.AxialCoordinates.z >= tileToCheck.AxialCoordinates.z - 1 && tile.AxialCoordinates.z <= tileToCheck.AxialCoordinates.z + 1)).ToList();
 
             return adjacentTiles;
+        }
+
+        public List<HexTile> GetTilesInRange(HexTile tile, int range) {
+
+            return this.tiles.Where(t => (t.axialCoordinates.x >= tile.axialCoordinates.x - range && t.axialCoordinates.x <= tile.axialCoordinates.x + range) &&
+                                         (t.axialCoordinates.y >= tile.axialCoordinates.y - range && t.axialCoordinates.y <= tile.axialCoordinates.y + range) &&
+                                         (t.axialCoordinates.z >= tile.axialCoordinates.z - range && t.axialCoordinates.z <= tile.axialCoordinates.z + range)).ToList();
         }
 
         private void Update() {

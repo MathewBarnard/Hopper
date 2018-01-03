@@ -21,7 +21,7 @@ namespace Assets.Source.Overworld.Actors.ActorActions {
         }
 
         private void Update() {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, this.destination.transform.position, 1.0f * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, this.destination.transform.position, 10.0f * Time.deltaTime);
 
             if (this.transform.position == this.destination.transform.position) {
 

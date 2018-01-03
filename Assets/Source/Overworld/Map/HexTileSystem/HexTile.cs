@@ -10,18 +10,24 @@ namespace Assets.Source.Overworld.Map {
     public enum TileType 
     {
         BaseTile,
-        BaseTileMountain,
-        BaseTileTown
+        BaseTileWall,
+        Empty
     };
 
     public class HexTile : MonoBehaviour {
 
         public TileType tileType;
+        public bool BlockLos;
 
         // The grid this tile belongs to
         public HexGrid GridParent;
 
-        protected SpriteRenderer spriteRenderer;
+        // UnityComponents
+        protected List<SpriteRenderer> spriteRenderers;
+        protected Collider2D collider;
+        public Collider2D Collider {
+            get { return collider; }
+        }
 
         protected Vector2 coordinates;
         public Vector2 Coordinates {
@@ -35,6 +41,18 @@ namespace Assets.Source.Overworld.Map {
         protected bool isDestination;
         public Actor inhabitingActor;
         public List<HexTile> connectedNodes;
+
+        public void Awake() {
+            this.collider = this.GetComponent<Collider2D>();
+
+            this.spriteRenderers = new List<SpriteRenderer>();
+
+            if(this.gameObject.GetComponent<SpriteRenderer>() != null)
+                this.spriteRenderers.Add(this.gameObject.GetComponent<SpriteRenderer>());
+
+            if(this.gameObject.GetComponentsInChildren<SpriteRenderer>().ToArray().Length > 0)
+                this.spriteRenderers.AddRange(this.gameObject.GetComponentsInChildren<SpriteRenderer>());
+        }
 
         public Vector3 SetCoordinates(int x, int z) {
 
@@ -50,23 +68,16 @@ namespace Assets.Source.Overworld.Map {
             return this.axialCoordinates;
         }
 
-        public void Awake() {
-            this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        }
-
         public void OnMouseEnter() {
             if (IsAdjacentToPlayer() && !this.isDestination) {
-                this.spriteRenderer.color = Color.green;
-            }
-            else {
-                //Debug.Log(this.axialCoordinates);
-                this.spriteRenderer.color = Color.red;
+                OverworldEventManager.Instance().HexTileFocused(this);
             }
         }
 
         public void OnMouseExit() {
-            if (!this.isDestination)
-                this.spriteRenderer.color = Color.white;
+            if (!this.isDestination) {
+                OverworldEventManager.Instance().HexTileUnfocused(this);
+            }
         }
 
         public void OnMouseDown() {
@@ -75,9 +86,23 @@ namespace Assets.Source.Overworld.Map {
             }
         }
 
-        public void Deselect() {
-            this.isDestination = false;
-            this.spriteRenderer.color = Color.white;
+        public void ToggleVisiblity() {
+            if (this.spriteRenderers[0].enabled == false) {
+                foreach(SpriteRenderer renderer in this.spriteRenderers) {
+                    renderer.enabled = true;
+                }
+            }
+            else {
+                foreach (SpriteRenderer renderer in this.spriteRenderers) {
+                    renderer.enabled = false;
+                }
+            }
+        }
+
+        public void ToggleVisiblity(bool setting) {
+            foreach (SpriteRenderer renderer in this.spriteRenderers) {
+                renderer.enabled = setting;
+            }
         }
 
         public void Inhabit(Actor actor) {
@@ -102,7 +127,8 @@ namespace Assets.Source.Overworld.Map {
 
         public static HexTile Create(HexGrid parent, TileType tileType, Vector2 worldPosition, Vector2 gridCoordinates) {
 
-            GameObject tile = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Overworld/{0}", tileType.ToString())), worldPosition, Quaternion.identity, parent.gameObject.transform);
+            Vector3 depthPosition = new Vector3(worldPosition.x, worldPosition.y, 10 + gridCoordinates.y);
+            GameObject tile = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Overworld/{0}", tileType.ToString())), depthPosition, Quaternion.identity, parent.gameObject.transform);
             tile.GetComponent<HexTile>().SetCoordinates((int)gridCoordinates.x, (int)gridCoordinates.y);
             tile.GetComponent<HexTile>().GridParent = parent;
             return tile.GetComponent<HexTile>();

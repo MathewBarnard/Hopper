@@ -28,6 +28,9 @@ namespace Assets.Source.Models {
         [XmlElement(ElementName = "PhysicalDamageModifier")]
         public int PhysicalDamageModifier;
 
+        [XmlElement(ElementName = "MagicalDamageModifier")]
+        public int MagicalDamageModifier;
+
         [XmlElement(ElementName = "TargetingType")]
         public Assets.Source.Battle.Spells.Abilities.TargetingType TargetingType;
 
