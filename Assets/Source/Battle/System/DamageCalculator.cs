@@ -32,5 +32,14 @@ namespace Assets.Source.Battle.System {
 
             return new AbilityResult(defender, damage);
         }
+
+        public static AbilityResult CalculateHealing(Combatant healer, Combatant target, int magicModifier) {
+
+            Statistics casterStats = healer.GetStats();
+
+            int healAmount = 59;
+
+            return new AbilityResult(target, healAmount);
+        }
     }
 }

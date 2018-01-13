@@ -30,7 +30,7 @@ namespace Assets.Source.Battle.Startup {
             foreach (string partyMember in playerParty.Members) {
 
                 // We want to spawn a combatant for each player in the party.
-                GameObject playerCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "PlayerCharacter 1")),this.transform.parent);
+                GameObject playerCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", partyMember)),this.transform.parent);
                 PlayerCombatant player = playerCombatant.GetComponent<PlayerCombatant>();
                 player.Character = DataRepository.Instance().Characters.GetByName(partyMember);
                 players.Add(playerCombatant);
@@ -41,14 +41,14 @@ namespace Assets.Source.Battle.Startup {
 
             // If the enemy party is null, grab the test party.
             if (enemyParty == null)
-                enemyParty = DataRepository.Instance().Parties.GetByName("test1");
+                enemyParty = (Party)DataRepository.Instance().Parties.GetByName("test1");
 
             foreach (string partyMember in enemyParty.Members) {
 
                 // We want to spawn a combatant for each player in the party.
                 GameObject enemyCombatant = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Characters/{0}", "Enemy")),this.transform.parent);
                 EnemyCombatant enemy = enemyCombatant.GetComponent<EnemyCombatant>();
-                enemy.Enemy = DataRepository.Instance().Enemies.GetByName(partyMember);
+                enemy.Enemy = (Enemy)DataRepository.Instance().Enemies.GetByName(partyMember).Clone();
                 enemies.Add(enemyCombatant);
             }
 

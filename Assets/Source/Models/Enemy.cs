@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable, XmlRoot(ElementName = "Enemy")]
-    public class Enemy {
+    public class Enemy : ICloneable {
 
         public Enemy() {
             Name = string.Empty;
@@ -25,5 +25,15 @@ namespace Assets.Source.Models {
         [XmlArray(ElementName = "Abilities")]
         [XmlArrayItem("AbilityGroup")]
         public List<AbilityGroup> Abilities;
+
+        public object Clone() {
+
+            var copy = (Enemy)this.MemberwiseClone();
+
+            copy.Stats = (Statistics)Stats.Clone();
+            copy.Abilities = Abilities.Select(c => (AbilityGroup)c.Clone()).ToList();
+
+            return copy;
+        }
     }
 }

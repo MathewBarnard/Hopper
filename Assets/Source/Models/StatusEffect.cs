@@ -7,12 +7,16 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable]
-    public class StatusEffect {
+    public class StatusEffect : ICloneable {
 
         [XmlElement(ElementName = "Id")]
         public Guid Id;
 
         [XmlElement(ElementName = "Name")]
         public string Name;
+
+        public object Clone() {
+            return this.MemberwiseClone();
+        }
     }
 }

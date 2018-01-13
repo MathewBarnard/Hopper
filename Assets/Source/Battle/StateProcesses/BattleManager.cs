@@ -12,6 +12,8 @@ using UnityEngine;
 namespace Assets.Source.Battle.StateProcesses {
     public class BattleManager : MonoBehaviour {
 
+        private Guid id;
+
         /// <summary>
         /// TurnController used to marionette the player and enemies actions
         /// </summary>
@@ -57,7 +59,7 @@ namespace Assets.Source.Battle.StateProcesses {
         /// Subscribe to events that the BattleManager is concerned with.
         /// </summary>
         private void Awake() {
-
+            this.id = Guid.NewGuid();
             BattleEventManager.Instance().onBattleStart += NextTurn;
             BattleEventManager.Instance().onActionSelected += ActionSelected;
             BattleEventManager.Instance().onTargetSelected += TargetSelected;
@@ -152,6 +154,8 @@ namespace Assets.Source.Battle.StateProcesses {
 
         public void ProcessTurn() {
             this.turnController = new TurnController(this,this.abilitySelection);
+
+            this.turnController.BeginNextAction();
         }
 
         private void EndTurn() {

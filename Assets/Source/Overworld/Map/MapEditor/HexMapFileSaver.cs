@@ -16,11 +16,19 @@ namespace Assets.Source.Overworld.Map.MapEditor {
         public static List<HexMapCsv> SaveFile(List<HexTile> hexTiles) {
 
             List<HexMapCsv> rows = new List<HexMapCsv>();
+            List<HexTile> inhabitedTiles = new List<HexTile>();
 
             hexTiles = hexTiles.OrderBy(tile => tile.Coordinates.x).ThenBy(tile => tile.Coordinates.y).ToList();
 
             foreach (HexTile tile in hexTiles) {
-                rows.Add(new HexMapCsv(tile.tileType, (int)tile.Coordinates.x, (int)tile.Coordinates.y));
+
+                string inhabitant = string.Empty;
+                if (tile.inhabitingActor != null) {
+                    if (tile.inhabitingActor is PartyActor)
+                        inhabitant = (tile.inhabitingActor as PartyActor).PartyFormation;
+                }
+                    
+                rows.Add(new HexMapCsv(tile.tileType, (int)tile.Coordinates.x, (int)tile.Coordinates.y, inhabitant));
             }
 
             // Convert to string

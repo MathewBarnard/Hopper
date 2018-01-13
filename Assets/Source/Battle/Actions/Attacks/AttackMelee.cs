@@ -47,8 +47,8 @@ namespace Assets.Source.Battle.Actions.Attacks {
         public void SpawnAttackSpell() {
 
             foreach (Combatant target in targets) {
-                GameObject spell = Instantiate((GameObject)Resources.Load("Prefabs/Battle/Spells/sword_attack_0"), target.transform.position, Quaternion.identity);
-                this.spellAnimation = spell.GetComponent<AttackMeleeAnimation>();
+                GameObject spell = Instantiate((GameObject)Resources.Load(string.Format("Prefabs/Battle/Spells/{0}", this.abilitySelection.ability.Model.Metadata.SpellAnimation)), target.transform.position, Quaternion.identity);
+                this.spellAnimation = spell.GetComponent<SpellAnimation>();
                 this.spellAnimation.abilitySelection = this.abilitySelection;
                 this.spellAnimation.source = this.combatant;
                 this.spellAnimation.target = target;

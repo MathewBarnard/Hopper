@@ -14,6 +14,10 @@ namespace Assets.Source.Overworld {
     public delegate void TravelStart(HexTile node);
     public delegate void ArrivedAtTile(HexTile node);
 
+    public delegate void StartTurn();
+    public delegate void AdvanceTurn();
+    public delegate void ResolveTurn();
+
     public class OverworldEventManager {
 
         private static OverworldEventManager overworldEventManager;
@@ -34,6 +38,10 @@ namespace Assets.Source.Overworld {
         // State changes
         public TravelStart onTravelStart;
         public ArrivedAtTile onArrivedAtTile;
+
+        public StartTurn onStartTurn;
+        public AdvanceTurn onAdvanceTurn;
+        public ResolveTurn onResolveTurn;
 
         public void HexTileClicked(HexTile tile) {
             if (onHexTileClicked != null)
@@ -58,6 +66,21 @@ namespace Assets.Source.Overworld {
         public void ArrivedAtTile(HexTile tile) {
             if (onArrivedAtTile != null)
                 onArrivedAtTile.Invoke(tile);
+        }
+
+        public void StartTurn() {
+            if (onStartTurn != null)
+                onStartTurn.Invoke();
+        }
+
+        public void AdvanceTurn() {
+            if (onAdvanceTurn != null)
+                onAdvanceTurn.Invoke();
+        }
+
+        public void ResolveTurn() {
+            if (onResolveTurn != null)
+                onResolveTurn.Invoke();
         }
     }
 }

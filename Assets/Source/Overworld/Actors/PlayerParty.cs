@@ -4,6 +4,6 @@ using System.Linq;
 using System.Text;
 
 namespace Assets.Source.Overworld.Actors {
-    public class PlayerParty : Actor {
+    public class PlayerParty : PartyActor {
     }
 }

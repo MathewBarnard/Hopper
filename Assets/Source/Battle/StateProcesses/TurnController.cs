@@ -20,8 +20,6 @@ namespace Assets.Source.Battle.StateProcesses {
             this.abilitySelections = abilitySelections;
             this.index = 0;
             BattleEventManager.Instance().onAbilityCompleted += BeginNextAction;
-
-            BeginNextAction();
         }
 
         public void BeginNextAction() {
@@ -73,6 +71,7 @@ namespace Assets.Source.Battle.StateProcesses {
                 this.BeginNextAction();
             }
             else {
+                BattleEventManager.Instance().onAbilityCompleted -= BeginNextAction;
                 BattleEventManager.Instance().BattleEnd();
             }
         }

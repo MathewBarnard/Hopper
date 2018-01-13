@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable, XmlRoot(ElementName = "Party")]
-    public class Party {
+    public class Party : ICloneable {
 
         public Party() {
             Id = Guid.Empty;
@@ -24,5 +24,14 @@ namespace Assets.Source.Models {
         [XmlArray(ElementName = "Members")]
         [XmlArrayItem("Member")]
         public List<string> Members;
+
+        public object Clone() {
+
+            var copy = (Party)this.MemberwiseClone();
+
+            copy.Members = Members.Select(c => (string)c.Clone()).ToList();
+
+            return copy;
+        }
     }
 }

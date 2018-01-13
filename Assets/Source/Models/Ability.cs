@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable]
-    public class Ability {
+    public class Ability : ICloneable {
 
         public Ability() {
             Name = string.Empty;
@@ -40,5 +40,13 @@ namespace Assets.Source.Models {
 
         [XmlElement(ElementName = "Metadata")]
         public Metadata Metadata;
+
+        public object Clone() {
+            var copy = (Ability)MemberwiseClone();
+
+            copy.StatusEffects = StatusEffects.Select(c => (StatusEffect)c.Clone()).ToList();
+
+            return copy; 
+        }
     }
 }

@@ -24,10 +24,16 @@ namespace Assets.Source.Overworld.Map.MapEditor {
             get { return z; }
         }
 
-        public HexMapCsv(TileType tileType, int x, int z) {
+        private string inhabitant;
+        public string Inhabitant {
+            get { return inhabitant; }
+        }
+
+        public HexMapCsv(TileType tileType, int x, int z, string inhabitant = "") {
             this.tileType = tileType;
             this.x = x;
             this.z = z;
+            this.inhabitant = inhabitant;
         }
 
         public HexMapCsv(string row) {
@@ -36,10 +42,13 @@ namespace Assets.Source.Overworld.Map.MapEditor {
             this.tileType = (TileType)Enum.Parse(typeof(TileType), fields[0]);
             this.x = Int32.Parse(fields[1]);
             this.z = Int32.Parse(fields[2]);
+
+            if(fields.Length > 3)
+                this.inhabitant = fields[3];
         }
 
         public override string ToString() {
-            return String.Format("{0},{1},{2}", new[] { tileType.ToString(), x.ToString(), z.ToString() });
+            return String.Format("{0},{1},{2},{3}", new[] { tileType.ToString(), x.ToString(), z.ToString(), inhabitant });
         }
     }
 }

@@ -53,6 +53,20 @@ namespace Assets.Source.Battle.Abilities.Abilities {
                 }
             }
 
+            if(this.model.MagicalDamageModifier != 0) {
+
+                if (this.model.TargetingType == Spells.Abilities.TargetingType.DEFENSIVE_SINGLE || this.model.TargetingType == Spells.Abilities.TargetingType.DEFENSIVE_ALL) {
+                    foreach (Combatant target in targets) {
+                        results.Add(DamageCalculator.CalculateHealing(this.actingCombatant, target, this.model.MagicalDamageModifier));
+                    }
+                }
+                else {
+                    foreach (Combatant target in targets) {
+                        
+                    }
+                }
+            }
+
             return results;
         }
     }

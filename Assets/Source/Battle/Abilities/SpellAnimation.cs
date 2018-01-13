@@ -37,5 +37,9 @@ namespace Assets.Source.Battle.Spells {
         protected void SpawnNumber(int result, Vector2 origin) {
             UI.AbilityTextPopup.Create(result.ToString(), this.target.transform.position);
         }
+
+        protected void SpawnNumber(int result, Vector2 origin, Color color) {
+            UI.AbilityTextPopup.Create(result.ToString(), this.target.transform.position, color);
+        }
     }
 }

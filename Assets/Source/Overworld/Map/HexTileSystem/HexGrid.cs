@@ -18,10 +18,22 @@ namespace Assets.Source.Overworld.Map {
         public int width;
         public int height;
 
+        private HexTile[,] tilesArray;
+
         private List<HexTile> tiles;
         public List<HexTile> Tiles {
-            get { return tiles; }
+            get 
+            {
+                if (tiles == null)
+                    tiles = new List<HexTile>();
+                return tiles;
+            }
         }
+
+        public List<HexTile> DiscoveredTiles {
+            get { return tiles.Where(t => t.Discovered == true).ToList(); }
+        }
+
         
         public HexTile Origin {
             get { return tiles[0]; }
@@ -32,16 +44,17 @@ namespace Assets.Source.Overworld.Map {
             get { return centre; }
         }
 
-        private void Awake() {
+        public void StoreToArray() {
+            tilesArray = new HexTile[width, height];
 
-            this.tiles = new List<HexTile>();
+            // Store our tiles in a nice wee array
+            foreach (HexTile tile in Tiles) {
+                Vector2 offsetCoords = HexTile.CubeToOffset(tile.CubeCoordinates);
+                tilesArray[(int)tile.OffsetCoordinates.x, (int)tile.OffsetCoordinates.y] = tile;
+            }
+        }
 
-            if(string.IsNullOrEmpty(mapToLoad)) {
-                HexGridGenerator.GenerateDefault(this, width, height);
-            }
-            else {
-                HexGridGenerator.GenerateFromFile(this, mapToLoad);
-            }
+        private void Start() {
 
             // Set centre
             centre = tiles.Where(tile => tile.Coordinates.x == width / 2 && tile.Coordinates.y == height / 2).FirstOrDefault();
@@ -51,18 +64,20 @@ namespace Assets.Source.Overworld.Map {
             List<HexTile> adjacentTiles = new List<HexTile>();
 
             adjacentTiles = tiles.Where(tile =>
-                                         (tile.AxialCoordinates.x >= tileToCheck.AxialCoordinates.x - 1 && tile.AxialCoordinates.x <= tileToCheck.AxialCoordinates.x + 1) &&
-                                         (tile.AxialCoordinates.y >= tileToCheck.AxialCoordinates.y - 1 && tile.AxialCoordinates.y <= tileToCheck.AxialCoordinates.y + 1) &&
-                                         (tile.AxialCoordinates.z >= tileToCheck.AxialCoordinates.z - 1 && tile.AxialCoordinates.z <= tileToCheck.AxialCoordinates.z + 1)).ToList();
+                                         (tile.CubeCoordinates.x >= tileToCheck.CubeCoordinates.x - 1 && tile.CubeCoordinates.x <= tileToCheck.CubeCoordinates.x + 1) &&
+                                         (tile.CubeCoordinates.y >= tileToCheck.CubeCoordinates.y - 1 && tile.CubeCoordinates.y <= tileToCheck.CubeCoordinates.y + 1) &&
+                                         (tile.CubeCoordinates.z >= tileToCheck.CubeCoordinates.z - 1 && tile.CubeCoordinates.z <= tileToCheck.CubeCoordinates.z + 1)).ToList();
+
+            adjacentTiles.Remove(tileToCheck);
 
             return adjacentTiles;
         }
 
         public List<HexTile> GetTilesInRange(HexTile tile, int range) {
 
-            return this.tiles.Where(t => (t.axialCoordinates.x >= tile.axialCoordinates.x - range && t.axialCoordinates.x <= tile.axialCoordinates.x + range) &&
-                                         (t.axialCoordinates.y >= tile.axialCoordinates.y - range && t.axialCoordinates.y <= tile.axialCoordinates.y + range) &&
-                                         (t.axialCoordinates.z >= tile.axialCoordinates.z - range && t.axialCoordinates.z <= tile.axialCoordinates.z + range)).ToList();
+            return this.tiles.Where(t => (t.CubeCoordinates.x >= tile.CubeCoordinates.x - range && t.CubeCoordinates.x <= tile.CubeCoordinates.x + range) &&
+                                         (t.CubeCoordinates.y >= tile.CubeCoordinates.y - range && t.CubeCoordinates.y <= tile.CubeCoordinates.y + range) &&
+                                         (t.CubeCoordinates.z >= tile.CubeCoordinates.z - range && t.CubeCoordinates.z <= tile.CubeCoordinates.z + range)).ToList();
         }
 
         private void Update() {

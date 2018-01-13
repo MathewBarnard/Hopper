@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable]
-    public class Statistics {
+    public class Statistics : ICloneable {
 
         public Statistics() {
             Health = new Models.Stat();
@@ -27,5 +27,16 @@ namespace Assets.Source.Models {
 
         [XmlElement(ElementName = "Speed")]
         public Stat Speed;
+
+        public object Clone() {
+            var copy = (Statistics)MemberwiseClone();
+
+            copy.Health = (Stat)Health.Clone();
+            copy.Attack = (Stat)Attack.Clone();
+            copy.Defense = (Stat)Defense.Clone();
+            copy.Speed = (Stat)Speed.Clone();
+
+            return copy;
+        }
     }
 }

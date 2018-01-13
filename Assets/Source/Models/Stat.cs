@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace Assets.Source.Models {
 
     [Serializable]
-    public class Stat {
+    public class Stat : ICloneable {
 
         public Stat() {
             Current = 0;
@@ -32,5 +32,9 @@ namespace Assets.Source.Models {
         /// </summary>
         [XmlElement(ElementName = "Default")]
         public int Default;
+
+        public object Clone() {
+            return this.MemberwiseClone();
+        }
     }
 }
