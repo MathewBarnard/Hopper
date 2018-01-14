@@ -27,8 +27,6 @@ namespace Assets.Source.Overworld.Actors.MonsterBehaviours {
                 result = Trigger.IsTriggered();
             }
 
-            Debug.Log(result);
-
             return result;
         }
     }

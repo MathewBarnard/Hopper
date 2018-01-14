@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Source.Overworld.Events {
     public class MoveAllActors : TurnEvent {
 
+        private List<MoveToNode> scripts;
         private List<KeyValuePair<Actor, HexTile>> actorsToMove;
 
         public MoveAllActors(List<KeyValuePair<Actor, HexTile>> actorsToMove) {
@@ -16,13 +18,22 @@ namespace Assets.Source.Overworld.Events {
         }
 
         public override void Go() {
+            scripts = new List<MoveToNode>();
             foreach (KeyValuePair<Actor, HexTile> pair in actorsToMove) {
-                pair.Key.actionQueue.AddToFront(MoveToNode.Create(pair.Key, pair.Value));
+                MoveToNode moveScript = MoveToNode.Create(pair.Key, pair.Value);
+                scripts.Add(moveScript);
+                pair.Key.actionQueue.AddToFront(moveScript);
             }
         }
 
-        public override void Setup() {
+        public override bool IsComplete() {
+            foreach(MoveToNode script in scripts) {
+                if (script != null)
+                    return false;
+            }
 
+            Debug.Log("Event complete");
+            return true;
         }
     }
 }

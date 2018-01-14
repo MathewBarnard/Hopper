@@ -6,7 +6,12 @@ using System.Text;
 namespace Assets.Source.Overworld.Events {
     public abstract class TurnEvent {
 
-        public abstract void Setup();
+        private bool complete;
+        public bool Complete {
+            get { return complete; }
+        }
+
+        public abstract bool IsComplete();
         public abstract void Go();
     }
 }

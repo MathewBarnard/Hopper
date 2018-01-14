@@ -17,8 +17,6 @@ namespace Assets.Source.Overworld.Actors.MonsterBehaviours {
 
             this.destination = neighbours[UnityEngine.Random.Range(0, neighbours.Count - 1)];
 
-            Debug.Log(this.destination);
-
             return destination;
         }
     }

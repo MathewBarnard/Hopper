@@ -111,13 +111,23 @@ namespace Assets.Source.Overworld {
 
         public void Update() {
 
-            // Event processing
-            if (events != null && events.Count > 0) {
+            // When no events are 
+            if (events != null && currentEvent == null && events.Count > 0) {
 
                 // Check if the event is still running
                 if(currentEvent == null) {
                     currentEvent = events.Dequeue();
                     currentEvent.Go();
+                }
+            }
+            else if(currentEvent != null) {
+                if (currentEvent.IsComplete()) {
+                    currentEvent = null;
+                }
+            }
+            else {
+                if(path != null && path.Count > 0) {
+                    ProcessTurn();
                 }
             }
 
